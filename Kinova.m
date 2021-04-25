@@ -1,10 +1,4 @@
-%% -- NOTE --
-% This M file was copied from UR5.m file form Peter Corke's 
-% Robotic Toolbox as a guide for UR3 component of Assignment
-
-% DH Parameters have been changed + Gripper Function was removed
-
-%% 
+%% KINOVA ARM CLASS
 classdef Kinova < handle
     properties %constant property
         %> Robot model
@@ -25,7 +19,7 @@ classdef Kinova < handle
             self.model.base = location;
             self.location = location;
             self.GetKinova(modelName,workspace);
-            self.PlotAndColourRobot();
+%             self.PlotAndColourRobot();
             self.startPoseJoints = zeros(1,6);
         end
 
@@ -40,13 +34,20 @@ function GetKinova(self, modelName, workspace)
 % https://www.kinovarobotics.com/sites/default/files/...
 % UG-017_KINOVA_Gen3_lite_robot_USER_GUIDE_EN_R01_0.pdf
 
+% NOTE:
+% theta - rotation about z-axis
+% d     - translation along z-axis
+% a     - translation along x-axis
+% alpha - rotation about x-axis
+% offset - kinematic joint coordinate offset (Nx1)
+
     % CHANGE DH PARAMETERS
-    L1 = Link('d',0,     'a',0.2433,'alpha',pi/2,'offset',0);
-    L2 = Link('d',0.03,  'a',0.28,  'alpha',pi,  'offset',pi/2);
-    L3 = Link('d',0,     'a',0.14,  'alpha',pi/2,'offset',0);
-    L4 = Link('d',0.2,   'a',0.105, 'alpha',pi/2,'offset',0);
-    L5 = Link('d',0.0285,'a',0.105, 'alpha',pi/2,'offset',pi/2);
-    L6 = Link('d',0.0285,'a',0.13,  'alpha',0,   'offset',0);
+    L1 = Link('d',0.1283, 'a',0,    'alpha',pi/2, 'offset',pi/2);
+    L2 = Link('d',0.03,   'a',0.27, 'alpha',pi,   'offset',0);
+    L3 = Link('d',0.02,   'a',0,    'alpha',pi/2, 'offset',0);
+    L4 = Link('d',0.140,  'a',0,    'alpha',pi/2, 'offset',0);
+    L5 = Link('d',0.0285, 'a',0,    'alpha',pi/2, 'offset',0);
+    L6 = Link('d',0.105,  'a',0,    'alpha',0,    'offset',0);
 
     L1.qlim = [deg2rad(-154.1),deg2rad(154.1)];
     L2.qlim = [deg2rad(-150.1),deg2rad(150.1)];
@@ -68,9 +69,9 @@ function GetKinova(self, modelName, workspace)
     
     % NOTE: TO USE STICK MODEL, COMMENT OUT PLOTANDCOLOUR FUNCTION AND USE
     % THE PARAMETERS AND SETUP BELOW:
-%         q = zeros(1,6);
-%         self.model.plot(q,'workspace', workspace);
-%         self.model.teach();
+        q = zeros(1,6);
+        self.model.plot(q,'workspace', workspace);
+        self.model.teach();
 end
 
 %% PlotAndColourRobot
