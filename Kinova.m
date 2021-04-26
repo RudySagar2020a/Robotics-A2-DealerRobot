@@ -28,7 +28,10 @@ classdef Kinova < handle
 
 function GetKinova(self, modelName, workspace)
     pause(0.001);
-    workspace = [-1 1 -1 1 0 1];
+    x = 0.5;
+    y = 0.5;
+    z = 1;
+    workspace = [-x x -y y -z z];
     
 % Kinova Gen3 Lite DH parameters found on Datasheet on below website: 
 % https://www.kinovarobotics.com/sites/default/files/...
@@ -42,11 +45,11 @@ function GetKinova(self, modelName, workspace)
 % offset - kinematic joint coordinate offset (Nx1)
 
     % CHANGE DH PARAMETERS
-    L1 = Link('d',0.1283, 'a',0,    'alpha',pi/2, 'offset',pi/2);
-    L2 = Link('d',0.03,   'a',0.27, 'alpha',pi,   'offset',0);
-    L3 = Link('d',0.02,   'a',0,    'alpha',pi/2, 'offset',0);
+    L1 = Link('d',0.1283, 'a',0,    'alpha',pi/2, 'offset',0);
+    L2 = Link('d',0.03,   'a',0.27, 'alpha',pi,   'offset',pi/2);
+    L3 = Link('d',0.02,   'a',0,    'alpha',pi/2, 'offset',pi/2);
     L4 = Link('d',0.140,  'a',0,    'alpha',pi/2, 'offset',0);
-    L5 = Link('d',0.0285, 'a',0,    'alpha',pi/2, 'offset',0);
+    L5 = Link('d',0.0285, 'a',0,    'alpha',pi/2, 'offset',pi);
     L6 = Link('d',0.105,  'a',0,    'alpha',0,    'offset',0);
 
     L1.qlim = [deg2rad(-154.1),deg2rad(154.1)];
@@ -71,7 +74,7 @@ function GetKinova(self, modelName, workspace)
     % THE PARAMETERS AND SETUP BELOW:
         q = zeros(1,6);
         self.model.plot(q,'workspace', workspace);
-        self.model.teach();
+%         self.model.teach();
 end
 
 %% PlotAndColourRobot
