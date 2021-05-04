@@ -3,7 +3,7 @@
         
         model;
         
-        workspace = [-1 1 -1 1 .9 2.1];
+        workspace = [-1 1 -1 1 -1 2.1];
         
         useGripper = false;
     
@@ -24,7 +24,7 @@
             
             name = 'Kinova';
             
-Kinova.L(1) = Link('d',0.115,'a',0,'alpha',pi/2,'offset',pi/2);
+Kinova.L(1) = Link('d',0.2433,'a',0,'alpha',pi/2,'offset',pi/2);
 Kinova.L(2) = Link('d',0.03,'a',0.28,'alpha',0,'offset',pi/2);
 Kinova.L(3) = Link('d',-.02,'a',0,'alpha',pi/2,'offset',-pi/2);
 Kinova.L(4) = Link('d',-.245,'a',0,'alpha',pi/2,'offset',pi/2);
@@ -40,7 +40,7 @@ Kinova.L(6).qlim = [deg2rad(-148.98),deg2rad(148.98)];
 
 self.model = SerialLink([Kinova.L(1) Kinova.L(2) Kinova.L(3) Kinova.L(4) Kinova.L(5) Kinova.L(6)], 'name', 'Kinova');
 
-self.model.base = self.model.base*transl(0,0,1.1);
+self.model.base = self.model.base*transl(0,0,.9);
 
        end
        
