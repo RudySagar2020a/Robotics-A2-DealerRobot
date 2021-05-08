@@ -1,5 +1,4 @@
 classdef getCards < handle
-   
     
     properties (Constant)
         %> Max height is for plotting of the workspace
@@ -14,7 +13,7 @@ classdef getCards < handle
         card;
         
         %> paddockSize in meters
-        workAreaSize = [2,2];        
+        workAreaSize = [2,2];
         
         %> Dimensions of the workspace in regard to the padoc size
         workspaceDimensions;
@@ -27,38 +26,37 @@ classdef getCards < handle
                 self.cardCount = cardCount;
             end
             
-            self.workspaceDimensions = [-self.workAreaSize(1)/2, self.workAreaSize(1)/2 ...
-                                       ,-self.workAreaSize(2)/2, self.workAreaSize(2)/2 ...
-                                       ,0,self.maxHeight];
-                                                      
-            cardLocation = transl(-.2,0,1);
-                
-           for i=1:14
-                self.card{i} = self.GetcardModel(['card',num2str(i)]);
+            self.workspaceDimensions = [-self.workAreaSize(1)/2,...
+                self.workAreaSize(1)/2,-self.workAreaSize(2)/2,...
+                self.workAreaSize(2)/2, 0, self.maxHeight];
+            
+            cardLocation = transl(-0.4,0,1);
+            
+            for i=1:14
+                self.card{i} = self.GetCardModel(['card',num2str(i)]);
                 % Spawn at locations
                 self.card{i}.base = cardLocation;
-                 % Plot 3D model
+                % Plot 3D model
                 plot3d(self.card{i},0,'workspace',self.workspaceDimensions,'delay',0);
                 % Hold on after the first plot (if already on there's no difference)
-                if i == 1 
+                if i == 1
                     hold on;
                 end
             end
-
+            
             axis equal
             camlight;
         end
         
         function delete(self)
-%             cla;
-        end       
-        
+            % delete cards when necessary
+        end
         
     end
     
     methods (Static)
         %% GetcardModel
-        function model = GetcardModel(name)
+        function model = GetCardModel(name)
             if nargin < 1
                 name = 'card';
             end
@@ -68,10 +66,8 @@ classdef getCards < handle
             model.faces = {faceData,[]};
             vertexData(:,2) = vertexData(:,2);
             model.points = {vertexData * rotx(pi),[]};
-         
+            
         end
         
-           
-    end    
+    end
 end
-
