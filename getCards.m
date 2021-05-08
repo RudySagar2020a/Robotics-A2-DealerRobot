@@ -8,6 +8,8 @@ classdef getCards < handle
     properties
         %> Number of cards
         cardCount = 14;
+        model;
+        location;
         
         %> A cell structure of \c cardCount card models
         card;
