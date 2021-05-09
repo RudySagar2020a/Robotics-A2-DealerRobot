@@ -48,7 +48,7 @@ classdef getCardHolders < handle
            for i=1:11
                 self.cardHolder{i} = self.GetcardHolderModel(['cardHolder',num2str(i)]);
                 % Spawn at locations
-                self.cardHolder{i}.base = chlocs{i}*troty(pi);
+                self.cardHolder{i}.base = chlocs{i}*trotx(-pi/2);
                  % Plot 3D model
                 plot3d(self.cardHolder{i},0,'workspace',self.workspaceDimensions,'delay',0);
                 % Hold on after the first plot (if already on there's no difference)
@@ -79,7 +79,7 @@ classdef getCardHolders < handle
             model = SerialLink(L1,'name',name);
             model.faces = {faceData,[]};
             vertexData(:,2) = vertexData(:,2);
-            model.points = {vertexData * rotx(pi),[]};
+            model.points = {vertexData,[]};
         end
     end    
 end
