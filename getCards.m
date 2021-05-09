@@ -32,7 +32,7 @@ classdef getCards < handle
                 self.workAreaSize(1)/2,-self.workAreaSize(2)/2,...
                 self.workAreaSize(2)/2, 0, self.maxHeight];
             
-            cardLocation = transl(-0.4,0,1);
+            cardLocation = transl(-0.2,0,1)*trotz(pi)*trotx(-pi/2);
             
             for i=1:14
                 self.card{i} = self.GetCardModel(['card',num2str(i)]);
@@ -67,7 +67,7 @@ classdef getCards < handle
             model = SerialLink(L1,'name',name);
             model.faces = {faceData,[]};
             vertexData(:,2) = vertexData(:,2);
-            model.points = {vertexData * rotx(pi),[]};
+            model.points = {vertexData,[]};
             
         end
         
