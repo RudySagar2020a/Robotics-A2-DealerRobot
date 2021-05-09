@@ -3,10 +3,10 @@
 % Function used to move end effector gripper from goal pose to cards pose,
 % pick it up and place wherever the goal pose is for that turn
 
-function [] = moveCards(robot, item, goalPose)
+function [] = moveCards(robot, cards, goalPose)
     
     qz = robot.model.getpos .* 0;
-    itemT = item.model.base;
+    itemT = cards.card{1}.base;
     currentQ = robot.model.getpos;
     goalQ = robot.model.ikcon(itemT,qz);
     
@@ -20,15 +20,15 @@ function [] = moveCards(robot, item, goalPose)
     %------------------------------------
     
     currentQ = robot.model.getpos;
-    newQ = robot.model.ikcon(goalPose, qz);
+    newQ = robot.model.ikcon(goalPose, currentQ);
     
     qMatrix = jtraj(currentQ, newQ, 51);
     for i = 1:size(qMatrix, 1)
         q = qMatrix(i,:);
         robot.model.animate(q);
         newBase = robot.model.fkine(q);
-        item.model.base = newBase;
-        item.model.animate(0);
+        cards.card{1}.base = newBase;
+        cards.card{1}.animate(0);
         pause(0.1);
     end
     pause(0.1);
