@@ -6,7 +6,7 @@
 function [] = moveCards(robot, cards, goalPose)
     
     qz = robot.model.getpos .* 0;
-    itemT = cards.card{1}.base;
+    itemT = cards.base; %cards.card{i}.base
     currentQ = robot.model.getpos;
     goalQ = robot.model.ikcon(itemT,qz);
     

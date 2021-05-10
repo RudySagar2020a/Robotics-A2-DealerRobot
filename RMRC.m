@@ -5,6 +5,7 @@
 function [qMatrix, steps] = RMRC(robot, startPose, goalPose)%, Time)
 % 1.1) Set parameters for the simulation
 % mdl_puma560;        % Load robot model
+robot = Kinova;
 
 t = 10;             % Total time (s)
 deltaT = 0.1;      % Control frequency (discrete timestep)

@@ -6,6 +6,7 @@ classdef Kinova < handle
         location;
         startJoints;
         restPose;
+        GetPose;
         useGripper = false;
         
     end
@@ -20,7 +21,7 @@ classdef Kinova < handle
             self.restPose = deg2rad([0,-25,-95,0,0,0]);
             self.GetKinova();
             self.PlotAndColourRobot();
-            self.getPose();
+            self.GetPose();
             
         end
         %% GetKinova
@@ -62,7 +63,7 @@ classdef Kinova < handle
         %% Get Current Position of Robot Arm Configuration
         
         function [pose] = getPose(self)
-            pose = self.model.fkine(self.model.getpos);
+            pose = self.model.fkine(zeros(1,6));
         end
         
         %% PlotAndColourRobot
