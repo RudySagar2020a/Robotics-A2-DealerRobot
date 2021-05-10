@@ -38,11 +38,15 @@ classdef getCardHolders < handle
             ch4 = eye(4)*transl(.6*cos(deg2rad(90+degBetPlayers)),.6*sin(deg2rad(90+degBetPlayers)),.97)*trotz(deg2rad(degBetPlayers))*transl(.0345,0,0);
             ch5 = eye(4)*transl(0,.6,.97)*transl(.0345,0,0);
             ch6 = eye(4)*transl(.6*cos(deg2rad(90-degBetPlayers)),.6*sin(deg2rad(90-degBetPlayers)),.97)*trotz(deg2rad(-degBetPlayers))*transl(.0345,0,0);
-            ch7 = eye(4)*transl(-.138,.3,.97);
-            ch8 = eye(4)*transl(-.069,.3,.97);
-            ch9 = eye(4)*transl(0,.3,.97);
-            ch10 = eye(4)*eye(4)*transl(.069,.3,.97);
-            ch11 = eye(4)*eye(4)*transl(.138,.3,.97);
+            ch7 = eye(4)*transl(.138,.15,.97)*trotz(pi);
+            ch8 = eye(4)*transl(.069,.15,.97)*trotz(pi);
+            ch9 = eye(4)*transl(0,.15,.97)*trotz(pi);
+            ch10 = eye(4)*transl(-.069,.15,.97)*trotz(pi);
+            ch11 = eye(4)*transl(-.138,.15,.97)*trotz(pi);
+            
+            
+            
+            
            chlocs = {[ch1] [ch2] [ch3] [ch4] [ch5] [ch6] [ch7] [ch8] [ch9] [ch10] [ch11]};
                 
            for i=1:11
