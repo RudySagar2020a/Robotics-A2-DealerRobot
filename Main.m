@@ -1,16 +1,14 @@
 %% Clear+Prepare Setup
 
 close all
-set(0,'DefaultFigureWindowStyle','docked')
-view(3);
 clear
 clc
-clf
+
 
 %% MAIN CLASS FOR EXECUTING CODE
 
 w = 2;
-workspace = [-w w -w w -w w];
+workspace =  [-w w -w w -w w];
 
 %generate & Plot table, arm & card holders
 
@@ -21,10 +19,10 @@ cards = getCards;
 
 %% Testing RMRC movement
 
-moveCards(Kinova, cards.card{i}.getpos*transl(-0.4,0,1)*trotz(pi/2), transl(0.0,0.5,1));
-% iQ = Kinova.GetPose;
-% Pose = iQ(1:3,4);
-% [qMatrix, steps] = moveDeal(Kinova, transl(Pose)*transl(0,0,0.9), 1.5);
+%moveCards(Kinova, cards.card{i}.getpos*transl(-0.4,0,1)*trotz(pi/2), transl(0.0,0.5,1));
+iPose = cards.card{cardNum}.base;
+nPose = CH.cardHolder{cardNum}.base;
+q1 = RMRC(robot,iPose,nPose,q);
 
 %% Grab card
 for cardNum = 1:14
