@@ -14,7 +14,7 @@ workspace = [-w w -w w -w w];
 
 %generate & Plot table, arm & card holders
 
-getTable();
+table = getTable;
 robot = Kinova;
 CH = getCardHolders;
 cards = getCards;

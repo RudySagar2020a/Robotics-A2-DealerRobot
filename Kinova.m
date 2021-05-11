@@ -78,9 +78,9 @@ classdef Kinova < handle
                 self.model.faces{linkIndex+1} = faceData;
                 self.model.points{linkIndex+1} = vertexData;
             end
-            
+            C = {'gray'};
             % Display robot
-            self.model.plot3d(zeros(1,self.model.n),'noarrow','workspace',self.workspace);
+            self.model.plot3d(zeros(1,self.model.n),'noarrow','workspace',self.workspace,'color',C);
             if isempty(findobj(get(gca,'Children'),'Type','Light'))
                 camlight
             end

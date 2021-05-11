@@ -48,13 +48,13 @@ classdef getCardHolders < handle
             
             
            chlocs = {[ch1] [ch2] [ch3] [ch4] [ch5] [ch6] [ch7] [ch8] [ch9] [ch10] [ch11]};
-                
+           C = {'black'};     
            for i=1:11
                 self.cardHolder{i} = self.GetcardHolderModel(['cardHolder',num2str(i)]);
                 % Spawn at locations
                 self.cardHolder{i}.base = chlocs{i}*trotx(-pi/2);
                  % Plot 3D model
-                plot3d(self.cardHolder{i},0,'workspace',self.workspaceDimensions,'delay',0);
+                plot3d(self.cardHolder{i},0,'workspace',self.workspaceDimensions,'delay',0,'color',C);
                 % Hold on after the first plot (if already on there's no difference)
                 if i == 1 
                     hold on;
