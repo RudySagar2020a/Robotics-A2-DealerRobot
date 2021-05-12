@@ -2,19 +2,16 @@
 % Lab 9 - Question 1 - Resolved Motion Rate Control in 6DOF referenced to
 % apply towards Kinova Arm movement (end effector position)
 
-function [qMatrix, steps] = RMRC(robot, startPose, goalPose)%, Time)
+function [q] = RMRC(robot,iPose,nPose,q)%, Time)
 % 1.1) Set parameters for the simulation
-% mdl_puma560;        % Load robot model
-robot = Kinova;
-
-t = 10;             % Total time (s)
+t = 5;             % Total time (s)
 deltaT = 0.1;      % Control frequency (discrete timestep)
 steps = t/deltaT;   % No. of steps for simulation
 delta = 2*pi/steps; % Small angle change
 epsilon = 0.1;      % Threshold value for manipulability/Damped Least Squares
 % [Lx Ly Lz Ax Ay Az]
 % Lx-Ly-Lz are linear velocities / Ax-Ay-Az are angular velocities
-W = diag([1 1 1 0.1 0.1 0.1]);    % Weighting matrix for the velocity vector
+W = diag([1 1 1 1 1 1]);    % Weighting matrix for the velocity vector
 
 % 1.2) Allocate array data
 m = zeros(steps,1);             % Array for Measure of Manipulability
@@ -25,46 +22,41 @@ x = zeros(3,steps);             % Array for x-y-z trajectory
 positionError = zeros(3,steps); % For plotting trajectory error
 angleError = zeros(3,steps);    % For plotting trajectory error
 
+s = lspb(0,1,steps);                % Trapezoidal trajectory scalar
 % 1.3) Set up trajectory, initial pose
-initQ = robot.model.fkine(startPose);                                       % get end effector pose from initial joint positions
-endQ  = goalPose;                                                           % set the goalPose of end effector
+x = [iPose(1,4) nPose(1,4)];  %start and end x position
+y = [iPose(2,4) nPose(2,4)];   %start and end y position
+z = [iPose(3,4) nPose(3,4)];   %start and end z position
+roll = [-pi/2 -pi/2]; %[-atan2(iPose(3,1),iPose(3,2)) -atan2(nPose(3,1),nPose(3,2))];
+pitch = [pi deg2rad(70)]; %[atan2(iPose(1,3),iPose(2,3)) atan2(nPose(1,3),nPose(2,3))];
+yaw = [0 0]; %[acos(iPose(3,3)) acos(nPose(3,3))];
 
-iQ = initQ(1:3,4);                                                          % get the xyz values from fkine transform matrix
-eQ = endQ(1:3,4);                                                           % get the xyz values from transform matrix
-
-xscalar = lspb(iQ(1), eQ(1), steps);
-yscalar = lspb(iQ(2), eQ(2), steps);
-zscalar = lspb(iQ(3), eQ(3), steps);
-
-for  i = 1:steps
-     x(1,i) = xscalar;      % Points in x
-     x(2,i) = yscalar;      % Points in y
-     x(3,i) = zscalar;      % Points in z
-     theta(1,i) = 0;        % Roll angle
-     theta(2,i) = 0;        % Pitch angle
-     theta(3,i) = 0;        % Yaw angle
+for i=1:steps
+     pos(1,i) = x(1)+s(i)*(x(2)-x(1)) % Points in x
+     pos(2,i) = y(1)+s(i)*(y(2)-y(1)) % Points in y
+     pos(3,i) = z(1)+s(i)*(z(2)-z(1)) % Points in z
+     theta(1,i) = roll(1)+s(i)*(roll(2)-roll(1))                 % Roll angle 
+     theta(2,i) = pitch(1)+s(i)*(pitch(2)-pitch(1))             % Pitch angle
+     theta(3,i) = yaw(1)+s(i)*(yaw(2)-yaw(1))                 % Yaw angle
 end
+% xscalar = lspb(iQ(1), eQ(1), steps);
+% yscalar = lspb(iQ(2), eQ(2), steps);
+% zscalar = lspb(iQ(3), eQ(3), steps);
 
-% s = lspb(0,1,steps);                     % Trapezoidal trajectory scalar
-% for i=1:steps
-%     x(1,i) = (1-s(i))*0.35 + s(i)*0.35;  % Points in x
-%     x(2,i) = (1-s(i))*-0.55 + s(i)*0.55; % Points in y
-%     x(3,i) = 0.5 + 0.2*sin(i*delta);     % Points in z
-%     theta(1,i) = 0;                      % Roll angle
-%     theta(2,i) = 5*pi/9;                 % Pitch angle
-%     theta(3,i) = 0;                      % Yaw angle
+% for  i = 1:steps
+%      pos(1,i) = xscalar;      % Points in x
+%      pos(2,i) = yscalar;      % Points in y
+%      pos(3,i) = zscalar;      % Points in z
+%      theta(1,i) = 0;        % Roll angle
+%      theta(2,i) = 0;        % Pitch angle
+%      theta(3,i) = 0;        % Yaw angle
 % end
-
-T = [rpy2r(theta(1,1),theta(2,1),theta(3,1)) x(:,1);zeros(1,3) 1];          % Create transformation of first point and angle
-q0 = zeros(1,6);                                                            % Initial guess for joint angles
-% qMatrix - will give joint angles to starting robot arm pose
-% qMatrix(1,:) = robot.model.ikcon(T,q0);                                     % Solve joint angles to achieve first waypoint
-qMatrix(1,i) = startPose;
+qMatrix(1,:) = q;                                     % Solve joint angles to achieve first waypoint
 
 % 1.4) Track the trajectory with RMRC
 for i = 1:steps-1
     T = robot.model.fkine(qMatrix(i,:));                                    % Get forward transformation at current joint state
-    deltaX = x(:,i+1) - T(1:3,4);                                         	% Get position error from next waypoint
+    deltaX = pos(:,i+1) - T(1:3,4);                                         	% Get position error from next waypoint
     Rd = rpy2r(theta(1,i+1),theta(2,i+1),theta(3,i+1));                     % Get next RPY angles, convert to rotation matrix
     Ra = T(1:3,1:3);                                                        % Current end-effector rotation matrix
     Rdot = (1/deltaT)*(Rd - Ra);                                            % Calculate rotation matrix error
@@ -90,14 +82,19 @@ for i = 1:steps-1
         end
     end
     qMatrix(i+1,:) = qMatrix(i,:) + deltaT*qdot(i,:);                       % Update next joint state based on joint velocities
-    positionError(:,i) = x(:,i+1) - T(1:3,4);                               % For plotting
-    angleError(:,i) = deltaTheta;                                           % For plotting
+    positionError(:,i) = pos(:,i+1) - T(1:3,4);                               % For plotting
+    angleError(:,i) = deltaTheta;
 end
 
+q = qMatrix(steps,:);
 % 1.5) Plot the results
 figure(1)
-plot3(x(1,:),x(2,:),x(3,:),'k.','LineWidth',1)
-robot.model.plot(qMatrix,'trail','r-')
+for i = 1:steps
+animate(robot.model,qMatrix(i,:)); 
+pause(.2);% For plotting
+plot3(pos(1,i),pos(2,i),pos(3,i),'k.','LineWidth',1)
+end
+
 
 % for i = 1:6
 %     figure(2)

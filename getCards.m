@@ -32,14 +32,14 @@ classdef getCards < handle
                 self.workAreaSize(1)/2,-self.workAreaSize(2)/2,...
                 self.workAreaSize(2)/2, 0, self.maxHeight];
             
-            cardLocation = transl(-0.4,0,1);
-            
+            cardLocation = transl(-0.2,0,1)*trotz(pi)*trotx(-pi/2);
+            C = {'white'};
             for i=1:14
                 self.card{i} = self.GetCardModel(['card',num2str(i)]);
                 % Spawn at locations
                 self.card{i}.base = cardLocation;
                 % Plot 3D model
-                plot3d(self.card{i},0,'workspace',self.workspaceDimensions,'delay',0);
+                plot3d(self.card{i},0,'workspace',self.workspaceDimensions,'delay',0,'color',C);
                 % Hold on after the first plot (if already on there's no difference)
                 if i == 1
                     hold on;
@@ -67,7 +67,7 @@ classdef getCards < handle
             model = SerialLink(L1,'name',name);
             model.faces = {faceData,[]};
             vertexData(:,2) = vertexData(:,2);
-            model.points = {vertexData * rotx(pi),[]};
+            model.points = {vertexData,[]};
             
         end
         

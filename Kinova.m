@@ -6,7 +6,6 @@ classdef Kinova < handle
         location;
         startJoints;
         restPose;
-        GetPose;
         useGripper = false;
         
     end
@@ -21,7 +20,7 @@ classdef Kinova < handle
             self.restPose = deg2rad([0,-25,-95,0,0,0]);
             self.GetKinova();
             self.PlotAndColourRobot();
-            self.GetPose();
+            self.getPose();
             
         end
         %% GetKinova
@@ -63,7 +62,7 @@ classdef Kinova < handle
         %% Get Current Position of Robot Arm Configuration
         
         function [pose] = getPose(self)
-            pose = self.model.fkine(zeros(1,6));
+            pose = self.model.fkine(self.model.getpos);
         end
         
         %% PlotAndColourRobot
@@ -79,9 +78,9 @@ classdef Kinova < handle
                 self.model.faces{linkIndex+1} = faceData;
                 self.model.points{linkIndex+1} = vertexData;
             end
-            
+            C = {'gray'};
             % Display robot
-            self.model.plot3d(zeros(1,self.model.n),'noarrow','workspace',self.workspace);
+            self.model.plot3d(zeros(1,self.model.n),'noarrow','workspace',self.workspace,'color',C);
             if isempty(findobj(get(gca,'Children'),'Type','Light'))
                 camlight
             end
