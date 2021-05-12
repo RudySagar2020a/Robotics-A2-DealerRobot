@@ -31,7 +31,8 @@ classdef getBottle < handle
                 ,-self.workAreaSize(2)/2, self.workAreaSize(2)/2 ...
                 ,0,self.maxHeight];
             
-            T1 = transl(-0.2,0,1);
+            zoffset = 0.02;
+            T1 = transl(0.0, 0.4, 1.0-zoffset);
             
             % Create the required number of bottles
             
