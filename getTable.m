@@ -1,6 +1,5 @@
 classdef getTable < handle
    
-    
     properties (Constant)
         %> Max height is for plotting of the workspace
         maxHeight = 2;
@@ -41,19 +40,16 @@ classdef getTable < handle
                 % Spawn at locations
                 self.table.base = T1;
                  % Plot 3D model
-                C = {'green'};
-                 plot3d(self.table,0,'workspace',self.workspaceDimensions,'delay',0,'color',C);
-                             
-                   
-           
-
+                C = {'cyan'};
+                plot3d(self.table,0,'workspace',self.workspaceDimensions,'delay',0,'color',C);
+                
             axis equal
             camlight;
        
         
-        function delete(self)
-%             cla;
-        end       
+%         function delete(self)
+% %             cla;
+%         end       
         
         end
     end
@@ -72,7 +68,6 @@ classdef getTable < handle
             model.faces = {faceData,[]};
             vertexData(:,2) = vertexData(:,2);
             model.points = {vertexData * rotx(pi),[]};
-        
         
     end    
     end
