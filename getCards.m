@@ -32,7 +32,8 @@ classdef getCards < handle
                 self.workAreaSize(1)/2,-self.workAreaSize(2)/2,...
                 self.workAreaSize(2)/2, 0, self.maxHeight];
             
-            cardLocation = transl(-0.2,0,1)*trotz(pi)*trotx(-pi/2);
+            cardLocation = transl(-0.4,0,1)*trotz(pi)*trotx(-pi/2);
+            
             C = {'white'};
             for i=1:14
                 self.card{i} = self.GetCardModel(['card',num2str(i)]);
