@@ -1,6 +1,5 @@
 classdef getCardHolders < handle
-   
-    
+        
     properties (Constant)
         %> Max height is for plotting of the workspace
         maxHeight = 2;
@@ -14,7 +13,7 @@ classdef getCardHolders < handle
         cardHolder;
         
         %> paddockSize in meters
-        workAreaSize = [2,2];        
+        workAreaSize = [2,2];
         
         %> Dimensions of the workspace in regard to the padoc size
         workspaceDimensions;
@@ -28,16 +27,20 @@ classdef getCardHolders < handle
             end
             
             self.workspaceDimensions = [-self.workAreaSize(1)/2, self.workAreaSize(1)/2 ...
-                                       ,-self.workAreaSize(2)/2, self.workAreaSize(2)/2 ...
-                                       ,0,self.maxHeight];
-           degBetPlayers = 70;
-                                               
-            ch1 = eye(4)*transl(.6*cos(deg2rad(90+degBetPlayers)),.6*sin(deg2rad(90+degBetPlayers)),.97)*trotz(deg2rad(degBetPlayers))*transl(-.0345,0,0);
+                ,-self.workAreaSize(2)/2, self.workAreaSize(2)/2 ...
+                ,0,self.maxHeight];
+            degBetPlayers = 70;
+            
+            ch1 = eye(4)*transl(.6*cos(deg2rad(90+degBetPlayers)),...
+                .6*sin(deg2rad(90+degBetPlayers)),.97)*trotz(deg2rad(degBetPlayers))*transl(-.0345,0,0);
             ch2 = eye(4)*transl(0,.6,.97)*transl(-.0345,0,0);
-            ch3 = eye(4)*transl(.6*cos(deg2rad(90-degBetPlayers)),.6*sin(deg2rad(90-degBetPlayers)),.97)*trotz(deg2rad(-degBetPlayers))*transl(-.0345,0,0);
-            ch4 = eye(4)*transl(.6*cos(deg2rad(90+degBetPlayers)),.6*sin(deg2rad(90+degBetPlayers)),.97)*trotz(deg2rad(degBetPlayers))*transl(.0345,0,0);
+            ch3 = eye(4)*transl(.6*cos(deg2rad(90-degBetPlayers)),...
+                .6*sin(deg2rad(90-degBetPlayers)),.97)*trotz(deg2rad(-degBetPlayers))*transl(-.0345,0,0);
+            ch4 = eye(4)*transl(.6*cos(deg2rad(90+degBetPlayers)),...
+                .6*sin(deg2rad(90+degBetPlayers)),.97)*trotz(deg2rad(degBetPlayers))*transl(.0345,0,0);
             ch5 = eye(4)*transl(0,.6,.97)*transl(.0345,0,0);
-            ch6 = eye(4)*transl(.6*cos(deg2rad(90-degBetPlayers)),.6*sin(deg2rad(90-degBetPlayers)),.97)*trotz(deg2rad(-degBetPlayers))*transl(.0345,0,0);
+            ch6 = eye(4)*transl(.6*cos(deg2rad(90-degBetPlayers)),...
+                .6*sin(deg2rad(90-degBetPlayers)),.97)*trotz(deg2rad(-degBetPlayers))*transl(.0345,0,0);
             ch7 = eye(4)*transl(.138,.15,.97)*trotz(pi);
             ch8 = eye(4)*transl(.069,.15,.97)*trotz(pi);
             ch9 = eye(4)*transl(0,.15,.97)*trotz(pi);
@@ -47,27 +50,27 @@ classdef getCardHolders < handle
             
             
             
-           chlocs = {[ch1] [ch2] [ch3] [ch4] [ch5] [ch6] [ch7] [ch8] [ch9] [ch10] [ch11]};
-           C = {'black'};     
-           for i=1:11
+            chlocs = {[ch1] [ch2] [ch3] [ch4] [ch5] [ch6] [ch7] [ch8] [ch9] [ch10] [ch11]};
+            C = {'black'};
+            for i=1:11
                 self.cardHolder{i} = self.GetcardHolderModel(['cardHolder',num2str(i)]);
                 % Spawn at locations
                 self.cardHolder{i}.base = chlocs{i}*trotx(-pi/2);
-                 % Plot 3D model
+                % Plot 3D model
                 plot3d(self.cardHolder{i},0,'workspace',self.workspaceDimensions,'delay',0,'color',C);
                 % Hold on after the first plot (if already on there's no difference)
-                if i == 1 
+                if i == 1
                     hold on;
                 end
             end
-
+            
             axis equal
             camlight;
         end
         
         function delete(self)
-%             cla;
-        end       
+            %             cla;
+        end
         
         
     end
@@ -85,6 +88,5 @@ classdef getCardHolders < handle
             vertexData(:,2) = vertexData(:,2);
             model.points = {vertexData,[]};
         end
-    end    
+    end
 end
-
