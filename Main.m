@@ -15,15 +15,18 @@ table = getTable;
 robot = Kinova;
 CH = getCardHolders;
 cards = getCards;
+bottle = getBottle;
 
 %% Testing RMRC movement
 
 %moveCards(Kinova, cards.card{i}.getpos*transl(-0.4,0,1)*trotz(pi/2), transl(0.0,0.5,1));
+
 iPose = cards.card{cardNum}.base;
 nPose = CH.cardHolder{cardNum}.base;
 q1 = RMRC(robot,iPose,nPose,q);
 
 %% Grab card
+
 for cardNum = 1:14
     q = robot.model.getpos;
     if cardNum == 3 || cardNum == 6
@@ -57,7 +60,8 @@ for cardNum = 1:14
             burntCards = 2;
         elseif cardNum > 7
             burntCards = 1;
-        else burntCards = 0;
+        else
+            burntCards = 0;
         end
         nextq = robot.model.ikcon(CH.cardHolder{cardNum-burntCards}.base*trotz(pi),robot.model.getpos);
     end
@@ -65,7 +69,7 @@ for cardNum = 1:14
     for i=1:steps
         q = traj(i,:);
         animate(robot.model,q);
-        cards.card{cardNum}.base = (robot.model.fkine(q))
+        cards.card{cardNum}.base = (robot.model.fkine(q));
         animate(cards.card{cardNum},0);
         pause(0.05);
     end
@@ -74,13 +78,14 @@ for cardNum = 1:14
         q(2) = q(2)-inc;
         animate(robot.model,q);
         pause(0.025);
-    end
-    
+    end    
     cardNum = cardNum + 1;
+    
     q = robot.model.getpos;
     if cardNum == 3 || cardNum == 6
         nextCard_qest = [42.7 -67.7 -108 -128 86.8 0]*pi/180;
-    else nextCard_qest = [60 -60 -100 30 -90 90]*pi/180;
+    else
+        nextCard_qest = [60 -60 -100 30 -90 90]*pi/180;
     end
     nextq = robot.model.ikcon(cards.card{cardNum}.base,nextCard_qest);
     steps = 50;
@@ -109,7 +114,8 @@ for cardNum = 1:14
             burntCards = 2;
         elseif cardNum > 7
             burntCards = 1;
-        else burntCards = 0;
+        else
+            burntCards = 0;
         end
         nextq = robot.model.ikcon(CH.cardHolder{cardNum-burntCards}.base*trotz(pi),robot.model.getpos);
     end
@@ -117,7 +123,7 @@ for cardNum = 1:14
     for i=1:steps
         q = traj(i,:);
         animate(robot.model,q);
-        cards.card{cardNum}.base = (robot.model.fkine(q))
+        cards.card{cardNum}.base = (robot.model.fkine(q));
         animate(cards.card{cardNum},0);
         pause(0.05);
     end
