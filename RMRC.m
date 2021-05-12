@@ -4,14 +4,14 @@
 
 function [q] = RMRC(robot,iPose,nPose,q)%, Time)
 % 1.1) Set parameters for the simulation
-t = 5;             % Total time (s)
+t = 10;             % Total time (s)
 deltaT = 0.1;      % Control frequency (discrete timestep)
 steps = t/deltaT;   % No. of steps for simulation
 delta = 2*pi/steps; % Small angle change
 epsilon = 0.1;      % Threshold value for manipulability/Damped Least Squares
 % [Lx Ly Lz Ax Ay Az]
 % Lx-Ly-Lz are linear velocities / Ax-Ay-Az are angular velocities
-W = diag([1 1 1 1 1 1]);    % Weighting matrix for the velocity vector
+W = diag([1 1 1 0.1 0.1 0.1]);    % Weighting matrix for the velocity vector
 
 % 1.2) Allocate array data
 m = zeros(steps,1);             % Array for Measure of Manipulability
@@ -32,12 +32,12 @@ pitch = [pi deg2rad(70)]; %[atan2(iPose(1,3),iPose(2,3)) atan2(nPose(1,3),nPose(
 yaw = [0 0]; %[acos(iPose(3,3)) acos(nPose(3,3))];
 
 for i=1:steps
-     pos(1,i) = x(1)+s(i)*(x(2)-x(1)) % Points in x
-     pos(2,i) = y(1)+s(i)*(y(2)-y(1)) % Points in y
-     pos(3,i) = z(1)+s(i)*(z(2)-z(1)) % Points in z
-     theta(1,i) = roll(1)+s(i)*(roll(2)-roll(1))                 % Roll angle 
-     theta(2,i) = pitch(1)+s(i)*(pitch(2)-pitch(1))             % Pitch angle
-     theta(3,i) = yaw(1)+s(i)*(yaw(2)-yaw(1))                 % Yaw angle
+    pos(1,i) = x(1)+s(i)*(x(2)-x(1)) % Points in x
+    pos(2,i) = y(1)+s(i)*(y(2)-y(1)) % Points in y
+    pos(3,i) = z(1)+s(i)*(z(2)-z(1)) % Points in z
+    theta(1,i) = roll(1)+s(i)*(roll(2)-roll(1))                 % Roll angle
+    theta(2,i) = pitch(1)+s(i)*(pitch(2)-pitch(1))             % Pitch angle
+    theta(3,i) = yaw(1)+s(i)*(yaw(2)-yaw(1))                 % Yaw angle
 end
 % xscalar = lspb(iQ(1), eQ(1), steps);
 % yscalar = lspb(iQ(2), eQ(2), steps);
@@ -90,9 +90,9 @@ q = qMatrix(steps,:);
 % 1.5) Plot the results
 figure(1)
 for i = 1:steps
-animate(robot.model,qMatrix(i,:)); 
-pause(.2);% For plotting
-plot3(pos(1,i),pos(2,i),pos(3,i),'k.','LineWidth',1)
+    animate(robot.model,qMatrix(i,:));
+    pause(.2);% For plotting
+    plot3(pos(1,i),pos(2,i),pos(3,i),'k.','LineWidth',1)
 end
 
 
@@ -104,7 +104,7 @@ end
 %     ylabel('Angle (rad)')
 %     refline(0,p560.qlim(i,1));
 %     refline(0,p560.qlim(i,2));
-%     
+%
 %     figure(3)
 %     subplot(3,2,i)
 %     plot(qdot(:,i),'k','LineWidth',1)
