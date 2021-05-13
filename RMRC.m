@@ -2,11 +2,11 @@
 % Lab 9 - Question 1 - Resolved Motion Rate Control in 6DOF referenced to
 % apply towards Kinova Arm movement (end effector position)
 
-function [q] = RMRC(robot,iPose,nPose,q)%, Time)
+function [q] = RMRC(robot,iPose,nPose,q,cards,cardNum)%, Time)
 % 1.1) Set parameters for the simulation
-t = 5;             % Total time (s)
-deltaT = 0.1;      % Control frequency (discrete timestep)
-steps = t/deltaT;   % No. of steps for simulation
+t = sqrt((nPose(1,4)-iPose(1,4))^2+(nPose(2,4)-iPose(2,4))^2+(nPose(3,4)-iPose(3,4))^2)*5;             % Total time (s)
+deltaT = 0.05;      % Control frequency (discrete timestep)
+steps = round(t/deltaT);   % No. of steps for simulation
 delta = 2*pi/steps; % Small angle change
 epsilon = 0.1;      % Threshold value for manipulability/Damped Least Squares
 % [Lx Ly Lz Ax Ay Az]
@@ -29,17 +29,17 @@ y = [iPose(2,4) nPose(2,4)];   %start and end y position
 z = [iPose(3,4) nPose(3,4)];   %start and end z position
 iPose_rpy = tr2rpy(iPose);
 nPose_rpy = tr2rpy(nPose);
-roll = [iPose_rpy(1) nPose_rpy(1)]; %[-atan2(iPose(3,1),iPose(3,2)) -atan2(nPose(3,1),nPose(3,2))];
-pitch = [iPose_rpy(2) nPose_rpy(2)]; %[atan2(iPose(1,3),iPose(2,3)) atan2(nPose(1,3),nPose(2,3))];
-yaw = [iPose_rpy(3) nPose_rpy(3)]; %[acos(iPose(3,3)) acos(nPose(3,3))];
+roll = [iPose_rpy(1) nPose_rpy(1)]; 
+pitch = [iPose_rpy(2) nPose_rpy(2)];
+yaw = [iPose_rpy(3) nPose_rpy(3)]; 
 
 for i=1:steps
-    pos(1,i) = x(1)+s(i)*(x(2)-x(1)) % Points in x
-    pos(2,i) = y(1)+s(i)*(y(2)-y(1)) % Points in y
-    pos(3,i) = z(1)+s(i)*(z(2)-z(1)) % Points in z
-    theta(1,i) = roll(1)+s(i)*(roll(2)-roll(1))                 % Roll angle
-    theta(2,i) = pitch(1)+s(i)*(pitch(2)-pitch(1))             % Pitch angle
-    theta(3,i) = yaw(1)+s(i)*(yaw(2)-yaw(1))                 % Yaw angle
+    pos(1,i) = x(1)+s(i)*(x(2)-x(1)); % Points in x
+    pos(2,i) = y(1)+s(i)*(y(2)-y(1)); % Points in y
+    pos(3,i) = z(1)+s(i)*(z(2)-z(1)); % Points in z
+    theta(1,i) = roll(1)+s(i)*(roll(2)-roll(1));               % Roll angle
+    theta(2,i) = pitch(1)+s(i)*(pitch(2)-pitch(1));             % Pitch angle
+    theta(3,i) = yaw(1)+s(i)*(yaw(2)-yaw(1));                 % Yaw angle
 end
 % xscalar = lspb(iQ(1), eQ(1), steps);
 % yscalar = lspb(iQ(2), eQ(2), steps);
@@ -92,9 +92,11 @@ q = qMatrix(steps,:);
 % 1.5) Plot the results
 figure(1)
 for i = 1:steps
+    cards.card{cardNum}.base = robot.model.fkine(qMatrix(i,:))
     animate(robot.model,qMatrix(i,:));
-    pause(.2);% For plotting
-    plot3(pos(1,i),pos(2,i),pos(3,i),'k.','LineWidth',1)
+    animate(cards.card{cardNum},0);
+    pause(deltaT);% For plotting
+    %plot3(pos(1,i),pos(2,i),pos(3,i),'k.','LineWidth',1)
 end
 
 % 
