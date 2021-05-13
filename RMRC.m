@@ -29,9 +29,9 @@ y = [iPose(2,4) nPose(2,4)];   %start and end y position
 z = [iPose(3,4) nPose(3,4)];   %start and end z position
 iPose_rpy = tr2rpy(iPose);
 nPose_rpy = tr2rpy(nPose);
-roll = [iPose_rpy(1) nPose_rpy(1)]; 
+roll = [iPose_rpy(1) nPose_rpy(1)];
 pitch = [iPose_rpy(2) nPose_rpy(2)];
-yaw = [iPose_rpy(3) nPose_rpy(3)]; 
+yaw = [iPose_rpy(3) nPose_rpy(3)];
 
 for i=1:steps
     pos(1,i) = x(1)+s(i)*(x(2)-x(1)); % Points in x
@@ -58,7 +58,7 @@ qMatrix(1,:) = q;                                     % Solve joint angles to ac
 % 1.4) Track the trajectory with RMRC
 for i = 1:steps-1
     T = robot.model.fkine(qMatrix(i,:));                                    % Get forward transformation at current joint state
-    deltaX = pos(:,i+1) - T(1:3,4);                                         	% Get position error from next waypoint
+    deltaX = pos(:,i+1) - T(1:3,4);                                         % Get position error from next waypoint
     Rd = rpy2r(theta(1,i+1),theta(2,i+1),theta(3,i+1));                     % Get next RPY angles, convert to rotation matrix
     Ra = T(1:3,1:3);                                                        % Current end-effector rotation matrix
     Rdot = (1/deltaT)*(Rd - Ra);                                            % Calculate rotation matrix error
@@ -87,19 +87,19 @@ for i = 1:steps-1
     positionError(:,i) = pos(:,i+1) - T(1:3,4);                               % For plotting
     angleError(:,i) = deltaTheta;
 end
+q = qMatrix; %(steps,:);
+% q = qMatrix(steps,:);
+% % 1.5) Plot the results
+% figure(1)
+% for i = 1:steps
+%     cards.card{cardNum}.base = robot.model.fkine(qMatrix(i,:))
+%     animate(robot.model,qMatrix(i,:));
+%     animate(cards.card{cardNum},0);
+%     pause(deltaT);% For plotting
+%     %plot3(pos(1,i),pos(2,i),pos(3,i),'k.','LineWidth',1)
+% end
 
-q = qMatrix(steps,:);
-% 1.5) Plot the results
-figure(1)
-for i = 1:steps
-    cards.card{cardNum}.base = robot.model.fkine(qMatrix(i,:))
-    animate(robot.model,qMatrix(i,:));
-    animate(cards.card{cardNum},0);
-    pause(deltaT);% For plotting
-    %plot3(pos(1,i),pos(2,i),pos(3,i),'k.','LineWidth',1)
-end
-
-% 
+%
 % for i = 1:6
 %     figure(2)
 %     subplot(3,2,i)
@@ -108,7 +108,7 @@ end
 %     ylabel('Angle (rad)')
 %     refline(0,p560.qlim(i,1));
 %     refline(0,p560.qlim(i,2));
-% 
+%
 %     figure(3)
 %     subplot(3,2,i)
 %     plot(qdot(:,i),'k','LineWidth',1)
@@ -116,7 +116,7 @@ end
 %     ylabel('Velocity (rad/s)')
 %     refline(0,0)
 % end
-% 
+%
 % figure(4)
 % subplot(2,1,1)
 % plot(positionError'*1000,'LineWidth',1)
@@ -124,7 +124,7 @@ end
 % xlabel('Step')
 % ylabel('Position Error (mm)')
 % legend('X-Axis','Y-Axis','Z-Axis')
-% 
+%
 % subplot(2,1,2)
 % plot(angleError','LineWidth',1)
 % refline(0,0)
@@ -135,5 +135,5 @@ end
 % plot(m,'k','LineWidth',1)
 % refline(0,epsilon)
 % title('Manipulability')
-% 
+%
 % end
