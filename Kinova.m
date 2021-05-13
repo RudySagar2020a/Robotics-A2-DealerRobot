@@ -2,11 +2,13 @@ classdef Kinova < handle
     properties
         
         model;
-        workspace = [-1 1 -1 1 -1 2.1];
+        workspace = [-2 2 -2 2 -1 2.1];
         location;
         startJoints;
         restPose;
         useGripper = false;
+        
+        eStop = 0;  %currently in off state
         
     end
     
