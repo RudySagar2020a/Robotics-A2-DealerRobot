@@ -16,24 +16,30 @@ robot = Kinova;
 CH = getCardHolders;
 cards = getCards;
 bottle = getBottle;
+cardNum = 1;
 
 %% Testing RMRC movement
 
 %moveCards(Kinova, cards.card{i}.getpos*transl(-0.4,0,1)*trotz(pi/2), transl(0.0,0.5,1));
 
-iPose = cards.card{cardNum}.base;
+iPose = robot.model.fkine(q);
+nCHrot = rpy2tr(tr2rpy(iPose \ CH.cardHolder{cardNum}.base));
+nPose = robot.model.fkine(q)*transl(0,-.1,0.2)*nCHrot;%CH.cardHolder{cardNum}.base;
+q = RMRC(robot,iPose,nPose,q);
+iPose = robot.model.fkine(q);
 nPose = CH.cardHolder{cardNum}.base;
-q1 = RMRC(robot,iPose,nPose,q);
+q = RMRC(robot,iPose,nPose,q);
+cardNum = cardNum+1;
 
 %% Grab card
 
 for cardNum = 1:14
     q = robot.model.getpos;
-    if cardNum == 3 || cardNum == 6
+    %if cardNum == 3 || cardNum == 1%%6
         nextCard_qest = [42.7 -67.7 -108 -128 86.8 0]*pi/180;
-    else nextCard_qest = [60 -60 -100 30 -90 90]*pi/180;
-    end
-    nextq = robot.model.ikcon(cards.card{cardNum}.base,nextCard_qest);
+    %else nextCard_qest = [60 -60 -100 30 -90 90]*pi/180;
+    %end
+    nextq = robot.model.ikcon(cards.card{cardNum}.base*troty(pi),nextCard_qest);
     steps = 50;
     traj = jtraj(q,nextq,steps);
     for i=1:steps

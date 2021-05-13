@@ -51,7 +51,7 @@ classdef getCardHolders < handle
             
             
             chlocs = {[ch1] [ch2] [ch3] [ch4] [ch5] [ch6] [ch7] [ch8] [ch9] [ch10] [ch11]};
-            C = {'white'};
+            C = {'black'};
             for i=1:11
                 self.cardHolder{i} = self.GetcardHolderModel(['cardHolder',num2str(i)]);
                 % Spawn at locations
