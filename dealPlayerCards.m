@@ -1,8 +1,9 @@
 %%Deal Player Cards
-function [q] = dealPlayerCards(robot,q,cards,CH)
+function [] = dealPlayerCards(robot,cards,CH)
 
 for cardNum = 1:6
 q = grabNextCard(robot,cards,cardNum); 
+
 iPose = robot.model.fkine(q);
 nPose = robot.model.fkine(q)*transl(0,0,-0.1);
 q = RMRC(robot,iPose,nPose,q,cards,cardNum);
@@ -45,6 +46,11 @@ for i=1:steps
     pause(.05);
 end
 end
-q = zeros(1,6);
-animate(robot.model,q);
+steps = 50;
+traj = jtraj(q,zeros(1,6),steps);
+for i=1:steps
+    q = traj(i,:);
+    animate(robot.model,q);
+    pause(.05);
+end
 end

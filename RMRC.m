@@ -41,18 +41,7 @@ for i=1:steps
     theta(2,i) = pitch(1)+s(i)*(pitch(2)-pitch(1));             % Pitch angle
     theta(3,i) = yaw(1)+s(i)*(yaw(2)-yaw(1));                 % Yaw angle
 end
-% xscalar = lspb(iQ(1), eQ(1), steps);
-% yscalar = lspb(iQ(2), eQ(2), steps);
-% zscalar = lspb(iQ(3), eQ(3), steps);
 
-% for  i = 1:steps
-%      pos(1,i) = xscalar;      % Points in x
-%      pos(2,i) = yscalar;      % Points in y
-%      pos(3,i) = zscalar;      % Points in z
-%      theta(1,i) = 0;        % Roll angle
-%      theta(2,i) = 0;        % Pitch angle
-%      theta(3,i) = 0;        % Yaw angle
-% end
 qMatrix(1,:) = q;                                     % Solve joint angles to achieve first waypoint
 
 % 1.4) Track the trajectory with RMRC

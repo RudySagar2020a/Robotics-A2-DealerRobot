@@ -32,20 +32,20 @@ classdef getCardHolders < handle
             degBetPlayers = 70;
             
             ch1 = eye(4)*transl(.6*cos(deg2rad(90+degBetPlayers)),...
-                .6*sin(deg2rad(90+degBetPlayers)),.97)*trotz(deg2rad(degBetPlayers))*transl(-.0345,0,0);
-            ch2 = eye(4)*transl(0,.6,.97)*transl(-.0345,0,0);
+                .6*sin(deg2rad(90+degBetPlayers)),.95)*trotz(deg2rad(degBetPlayers))*transl(-.0345,0,0);
+            ch2 = eye(4)*transl(0,.6,.95)*transl(-.0345,0,0);
             ch3 = eye(4)*transl(.6*cos(deg2rad(90-degBetPlayers)),...
-                .6*sin(deg2rad(90-degBetPlayers)),.97)*trotz(deg2rad(-degBetPlayers))*transl(-.0345,0,0);
+                .6*sin(deg2rad(90-degBetPlayers)),.95)*trotz(deg2rad(-degBetPlayers))*transl(-.0345,0,0);
             ch4 = eye(4)*transl(.6*cos(deg2rad(90+degBetPlayers)),...
-                .6*sin(deg2rad(90+degBetPlayers)),.97)*trotz(deg2rad(degBetPlayers))*transl(.0345,0,0);
-            ch5 = eye(4)*transl(0,.6,.97)*transl(.0345,0,0);
+                .6*sin(deg2rad(90+degBetPlayers)),.95)*trotz(deg2rad(degBetPlayers))*transl(.0345,0,0);
+            ch5 = eye(4)*transl(0,.6,.95)*transl(.0345,0,0);
             ch6 = eye(4)*transl(.6*cos(deg2rad(90-degBetPlayers)),...
-                .6*sin(deg2rad(90-degBetPlayers)),.97)*trotz(deg2rad(-degBetPlayers))*transl(.0345,0,0);
-            ch7 = eye(4)*transl(.138,.15,.97)*trotz(pi);
-            ch8 = eye(4)*transl(.069,.15,.97)*trotz(pi);
-            ch9 = eye(4)*transl(0,.15,.97)*trotz(pi);
-            ch10 = eye(4)*transl(-.069,.15,.97)*trotz(pi);
-            ch11 = eye(4)*transl(-.138,.15,.97)*trotz(pi);
+                .6*sin(deg2rad(90-degBetPlayers)),.95)*trotz(deg2rad(-degBetPlayers))*transl(.0345,0,0);
+            ch7 = eye(4)*transl(.138,.4,.95);
+            ch8 = eye(4)*transl(.069,.4,.95);
+            ch9 = eye(4)*transl(0,.4,.95);
+            ch10 = eye(4)*transl(-.069,.4,.95);
+            ch11 = eye(4)*transl(-.138,.4,.95);
             
             
             

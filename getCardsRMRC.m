@@ -33,13 +33,15 @@ classdef getCardsRMRC < handle
                 self.workAreaSize(1)/2,-self.workAreaSize(2)/2,...
                 self.workAreaSize(2)/2, 0, self.maxHeight];
             
-            cardLocation = transl(-0.5,0,1)*trotz(pi/2)*trotx(-pi/2);
+            cardLocation = transl(-0.6,0,1)*trotz(pi/2)*trotx(-pi/2);
             
             C = {'white'};
             for i=1:14
                 self.card{i} = self.GetCardModel(['card',num2str(i)]);
+               
                 % Spawn at locations
                 self.card{i}.base = cardLocation;
+                
                 % Plot 3D model
                 plot3d(self.card{i},0,'workspace',self.workspaceDimensions,'delay',0,'color',C);
                 % Hold on after the first plot (if already on there's no difference)

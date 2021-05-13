@@ -14,14 +14,25 @@ workspace =  [-w w -w w -w w];
 table = getTable;
 robot = Kinova;
 CH = getCardHolders;
+CD = getCardDispenser;
 cards = getCardsRMRC;
 %bottle = getBottle;
 q = zeros(1,6);
 
 %% Deal Player cards
 
-q = dealPlayerCards(robot,q,cards,CH) 
+dealPlayerCards(robot,cards,CH) 
+%% The Flop
 
+theFlop(robot,cards,CH,CD)
+
+%% The Turn
+
+theTurn(robot,cards,CH,CD)
+
+%% The River
+
+theRiver(robot,cards,CH,CD)
 
 
 

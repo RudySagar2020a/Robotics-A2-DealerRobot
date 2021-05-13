@@ -12,11 +12,19 @@ for i=1:steps
     animate(robot.model,q);
     pause(.05);
 end
+steps = 10;
+for i = 1:steps
+    cards.card{cardNum}.base(1,4) = cards.card{cardNum}.base(1,4) + .1/steps;
+    animate(cards.card{cardNum},0);
+    pause(.05);
+end
 nextq = robot.model.ikcon(cards.card{cardNum}.base,q);
 steps = 20;
 traj = jtraj(q,nextq,steps);
+
 for i=1:steps
     q = traj(i,:);
     animate(robot.model,q);
     pause(.05);
+end
 end
