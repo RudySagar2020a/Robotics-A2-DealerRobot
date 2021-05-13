@@ -15,15 +15,16 @@ table = getTable;
 robot = Kinova;
 CH = getCardHolders;
 cards = getCards;
-bottle = getBottle;
+% bottle = getBottle;
 cardNum = 1;
 
 %% Testing RMRC movement
 
 %moveCards(Kinova, cards.card{i}.getpos*transl(-0.4,0,1)*trotz(pi/2), transl(0.0,0.5,1));
+% q = deg2rad([0,0,0,0,0,0]);
 
 iPose = robot.model.fkine(q);
-nCHrot = rpy2tr(tr2rpy(iPose \ CH.cardHolder{cardNum}.base));
+nCHrot = rpy2tr(tr2rpy(iPose / CH.cardHolder{cardNum}.base));
 nPose = robot.model.fkine(q)*transl(0,-.1,0.2)*nCHrot;%CH.cardHolder{cardNum}.base;
 q = RMRC(robot,iPose,nPose,q);
 iPose = robot.model.fkine(q);
