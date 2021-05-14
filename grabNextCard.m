@@ -1,5 +1,6 @@
 %%Grab Next Card
-function [q] = grabNextCard(robot,cards,cardNum)
+function [q] = grabNextCard(robot1,cards,cardNum)
+robot = robot1;
 
 nextCardApproachTr = transl(-0.4,0,1)*trotz(pi/2)*trotx(-pi/2);
 
@@ -9,6 +10,9 @@ steps = 50;
 traj = jtraj(q,nextq,steps);
 for i=1:steps
     q = traj(i,:);
+        while robot.eStop == 1
+            pause(1);
+        end
     animate(robot.model,q);
     pause(.05);
 end
@@ -24,6 +28,9 @@ traj = jtraj(q,nextq,steps);
 
 for i=1:steps
     q = traj(i,:);
+        while robot.eStop == 1
+            pause(1);
+        end
     animate(robot.model,q);
     pause(.05);
 end

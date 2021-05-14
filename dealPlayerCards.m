@@ -1,5 +1,6 @@
 %%Deal Player Cards
-function [] = dealPlayerCards(robot,cards,CH)
+function [] = dealPlayerCards(robot1,cards,CH)
+robot = robot1;
 
 for cardNum = 1:6
 
@@ -39,6 +40,9 @@ for cardNum = 1:6
     traj = jtraj(q,nextq,steps);
     for i=1:steps
         q = traj(i,:);
+            while robot.eStop == 1
+                pause(1);
+            end
         animate(robot.model,q);
         pause(.05);
     end

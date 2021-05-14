@@ -1,6 +1,7 @@
 %%Burn Card
 
-function [] = burnCard(robot,cards,cardNum,CD)
+function [] = burnCard(robot1,cards,cardNum,CD)
+robot = robot1;
 
 q = grabNextCard(robot,cards,cardNum);
 
@@ -21,6 +22,9 @@ steps = 20;
 traj = jtraj(q,nextq,steps);
 for i=1:steps
     q = traj(i,:);
+        while robot.eStop == 1
+            pause(1);
+        end
     animate(robot.model,q);
     pause(.05);
 end

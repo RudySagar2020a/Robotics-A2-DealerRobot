@@ -2,7 +2,8 @@
 % Lab 9 - Question 1 - Resolved Motion Rate Control in 6DOF referenced to
 % apply towards Kinova Arm movement (end effector position)
 
-function [q] = RMRC(robot,iPose,nPose,q,cards,cardNum)%, Time)
+function [q] = RMRC(robot1,iPose,nPose,q,cards,cardNum)%, Time)
+robot = robot1;
 % 1.1) Set parameters for the simulation
 t = sqrt((nPose(1,4)-iPose(1,4))^2+(nPose(2,4)-iPose(2,4))^2+(nPose(3,4)-iPose(3,4))^2)*5;             % Total time (s)
 deltaT = 0.05;      % Control frequency (discrete timestep)
@@ -76,12 +77,15 @@ for i = 1:steps-1
     positionError(:,i) = pos(:,i+1) - T(1:3,4);                               % For plotting
     angleError(:,i) = deltaTheta;
 end
-q = qMatrix; %(steps,:);
+% q = qMatrix; %(steps,:);
 q = qMatrix(steps,:);
 % 1.5) Plot the results
 figure(1)
 for i = 1:steps
     cards.card{cardNum}.base = robot.model.fkine(qMatrix(i,:))
+        while robot.eStop == 1
+            pause(1);
+        end
     animate(robot.model,qMatrix(i,:));
     animate(cards.card{cardNum},0);
     pause(deltaT);% For plotting
