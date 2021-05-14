@@ -31,20 +31,6 @@ classdef People < handle
             self.model.base = location;
             self.model.plot3d(0, 'workspace', workspace)
             
-            for linkIndex = 0:self.model.n
-                handles = findobj('Tag', self.model.name);
-                h = get(handles,'UserData');
-                try
-                    h.link(linkIndex+1).Children.FaceVertexCData = ...
-                        [plyData{linkIndex+1}.vertex.red ...
-                        , plyData{linkIndex+1}.vertex.green ...
-                        , plyData{linkIndex+1}.vertex.blue]/255;
-                    h.link(linkIndex+1).Children.FaceColor = 'interp';
-                catch ME_1
-                    disp(ME_1);
-                    continue;
-                end
             end
-        end
     end
 end

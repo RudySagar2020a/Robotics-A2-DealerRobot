@@ -10,10 +10,7 @@ w = 2;
 workspace =  [-w w -0.5 w 0 w];
 
 %generate & Plot table, arm & card holders
-
-Dennis = People(workspace, 'Dennis', transl(1.1, 0.4, 0.0) * trotz(pi));
-Mei = People(workspace, 'Mei', transl(-1.15, 0.55, 0.0) * trotz(-pi/2));
-Jack = People(workspace, 'Jack', transl(0.0, 1.15, 0.0));
+surf([-2,-2;2,2],[-1.6,2;-1.6,2],[0.001,0.001;0.001,0.001],'CData',imread('carpet.jpg'),'FaceColor','texturemap');
 
 table = getTable;
 robot = Kinova;
@@ -21,6 +18,11 @@ CH = getCardHolders;
 CD = getCardDispenser;
 cards = getCardsRMRC;
 %bottle = getBottle;
+
+Dennis = People(workspace, 'Dennis', transl(1.1, 0.4, 0.0) * trotz(pi));
+Mei = People(workspace, 'Mei', transl(-1.15, 0.55, 0.0) * trotz(-pi/2));
+Jack = People(workspace, 'Jack', transl(0.0, 1.15, 0.0));
+
 q = zeros(1,6);
 
 %% Deal Player cards
