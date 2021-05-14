@@ -20,7 +20,7 @@ cards = getCardsRMRC;
 q = zeros(1,6);
 
 %% Deal Player cards
-
+    
 dealPlayerCards(robot,cards,CH) 
 %% The Flop
 
@@ -38,8 +38,5 @@ theRiver(robot,cards,CH,CD)
 
 %% Grab card  ***JTRAJ METHOD***
 
-moveCard()
-
-end
-
+moveCards()
 

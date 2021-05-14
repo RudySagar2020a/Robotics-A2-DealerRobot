@@ -42,7 +42,7 @@ for i=1:steps
     theta(3,i) = yaw(1)+s(i)*(yaw(2)-yaw(1));                 % Yaw angle
 end
 
-qMatrix(1,:) = q;                                     % Solve joint angles to achieve first waypoint
+qMatrix(1,:) = robot.model.getpos;                                     % Solve joint angles to achieve first waypoint
 
 % 1.4) Track the trajectory with RMRC
 for i = 1:steps-1
@@ -77,16 +77,16 @@ for i = 1:steps-1
     angleError(:,i) = deltaTheta;
 end
 q = qMatrix; %(steps,:);
-% q = qMatrix(steps,:);
-% % 1.5) Plot the results
-% figure(1)
-% for i = 1:steps
-%     cards.card{cardNum}.base = robot.model.fkine(qMatrix(i,:))
-%     animate(robot.model,qMatrix(i,:));
-%     animate(cards.card{cardNum},0);
-%     pause(deltaT);% For plotting
-%     %plot3(pos(1,i),pos(2,i),pos(3,i),'k.','LineWidth',1)
-% end
+q = qMatrix(steps,:);
+% 1.5) Plot the results
+figure(1)
+for i = 1:steps
+    cards.card{cardNum}.base = robot.model.fkine(qMatrix(i,:))
+    animate(robot.model,qMatrix(i,:));
+    animate(cards.card{cardNum},0);
+    pause(deltaT);% For plotting
+    %plot3(pos(1,i),pos(2,i),pos(3,i),'k.','LineWidth',1)
+end
 
 %
 % for i = 1:6

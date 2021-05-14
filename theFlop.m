@@ -6,7 +6,8 @@ cardNum = 7;
 burnCard(robot,cards,cardNum,CD);
 
 for cardNum = 8:10
-   showcard(robot,cards,cardNum);
+   showCard(robot,cards,CH,cardNum);
 end
+return2Home(robot);
 end
 

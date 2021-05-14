@@ -33,12 +33,12 @@ classdef getCardHolders < handle
             
             ch1 = eye(4)*transl(.6*cos(deg2rad(90+degBetPlayers)),...
                 .6*sin(deg2rad(90+degBetPlayers)),.95)*trotz(deg2rad(degBetPlayers))*transl(-.0345,0,0);
-            ch2 = eye(4)*transl(0,.6,.95)*transl(-.0345,0,0);
+            ch2 = eye(4)*transl(0,.6,1.01)*transl(-.0345,0,0);
             ch3 = eye(4)*transl(.6*cos(deg2rad(90-degBetPlayers)),...
                 .6*sin(deg2rad(90-degBetPlayers)),.95)*trotz(deg2rad(-degBetPlayers))*transl(-.0345,0,0);
             ch4 = eye(4)*transl(.6*cos(deg2rad(90+degBetPlayers)),...
                 .6*sin(deg2rad(90+degBetPlayers)),.95)*trotz(deg2rad(degBetPlayers))*transl(.0345,0,0);
-            ch5 = eye(4)*transl(0,.6,.95)*transl(.0345,0,0);
+            ch5 = eye(4)*transl(0,.6,1.01)*transl(.0345,0,0);
             ch6 = eye(4)*transl(.6*cos(deg2rad(90-degBetPlayers)),...
                 .6*sin(deg2rad(90-degBetPlayers)),.95)*trotz(deg2rad(-degBetPlayers))*transl(.0345,0,0);
             ch7 = eye(4)*transl(.138,.4,.95);

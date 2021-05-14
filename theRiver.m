@@ -6,5 +6,8 @@ cardNum = 13;
 burnCard(robot,cards,cardNum,CD)
 
 cardNum = 14;
-showCard(robot,cards,cardNum);
+showCard(robot,cards,CH,cardNum);
+
+return2Home(robot);
+
 end
