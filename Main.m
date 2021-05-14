@@ -6,17 +6,16 @@ clc
 
 %% MAIN CLASS FOR EXECUTING CODE
 
-w = 2;
-workspace =  [-w w -w w -w w];
-
+workspace =  [-2 2 -.6 2 0 2.1];
+surf([-2,-2;2,2],[-1.2,2;-1.2,2],[0.001,0.001;0.001,0.001],'CData',imread('carpet.jpg'),'FaceColor','texturemap');
 %generate & Plot table, arm & card holders
 
 table = getTable;
 robot = Kinova;
 CH = getCardHolders;
 CD = getCardDispenser;
-cards = getCardsRMRC;
-%bottle = getBottle;
+cards = getCardsRMRC(workspace);
+%bottle = getBottle(workspace);
 q = zeros(1,6);
 
 %% Deal Player cards

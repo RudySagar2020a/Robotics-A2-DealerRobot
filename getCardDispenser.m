@@ -12,9 +12,6 @@ classdef getCardDispenser < handle
         %> A cell structure of \c CardDispenserCount CardDispenser models
         cardDispenser;
         
-        %> workspace in meters
-        workAreaSize = [2,2];        
-        
         %> Dimensions of the workspace
         workspaceDimensions;
     end
@@ -26,9 +23,8 @@ classdef getCardDispenser < handle
                 self.cardDispenserCount = CardDispenserCount;
             end
             
-            self.workspaceDimensions = [-self.workAreaSize(1)/2, self.workAreaSize(1)/2 ...
-                                       ,-self.workAreaSize(2)/2, self.workAreaSize(2)/2 ...
-                                       ,0,self.maxHeight];
+            self.workspaceDimensions = [-2 2 -.6 2 0 2.1];
+           
             
             T1 = eye(4)*transl(-.65,0,1.1)*trotx(-pi/2)*troty(-pi/2);
             

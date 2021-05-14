@@ -11,10 +11,7 @@ classdef getTable < handle
         
         %> A cell structure of \c tableCount table models
         table;
-        
-        %> workspace in meters
-        workAreaSize = [2,2];        
-        
+               
         %> Dimensions of the workspace
         workspaceDimensions;
     end
@@ -26,9 +23,7 @@ classdef getTable < handle
                 self.tableCount = tableCount;
             end
             
-            self.workspaceDimensions = [-self.workAreaSize(1)/2, self.workAreaSize(1)/2 ...
-                                       ,-self.workAreaSize(2)/2, self.workAreaSize(2)/2 ...
-                                       ,0,self.maxHeight];
+            self.workspaceDimensions = [-2 2 -.6 2 0 2.1];
             
             T1 = eye(4)*transl(0,0,0)*trotx(deg2rad(180))*troty(deg2rad(0))*trotz(deg2rad(0));
             

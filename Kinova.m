@@ -2,7 +2,7 @@ classdef Kinova < handle
     properties
         
         model;
-        workspace = [-2 2 -2 2 -1 2.1];
+        workspace;
         location;
         startJoints;
         restPose;
@@ -14,7 +14,7 @@ classdef Kinova < handle
     
     methods
         
-        function self = Kinova()
+        function self = Kinova(workspace)
             
             self.model.base = transl(0,0,0.9);
             self.model.location = transl(0,0,0.9);
@@ -23,7 +23,7 @@ classdef Kinova < handle
             self.GetKinova();
             self.PlotAndColourRobot();
             self.getPose();
-            
+            self.workspace = [-2 2 -.6 2 0 2.1];;
         end
         %% GetKinova
         function GetKinova(self)
@@ -87,21 +87,7 @@ classdef Kinova < handle
                 camlight
             end
             self.model.delay = 0;
-            
-            % Try to correctly colour the arm (if colours are in ply file data)
-            for linkIndex = 0:self.model.n
-                handles = findobj('Tag', self.model.name);
-                h = get(handles,'UserData');
-                try
-                    h.link(linkIndex+1).Children.FaceVertexCData = [plyData{linkIndex+1}.vertex.red ...
-                        , plyData{linkIndex+1}.vertex.green ...
-                        , plyData{linkIndex+1}.vertex.blue]/255;
-                    h.link(linkIndex+1).Children.FaceColor = 'interp';
-                catch ME_1
-                    disp(ME_1);
-                    continue;
-                end
-            end
-        end
+           
+       end
     end
 end
