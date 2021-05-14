@@ -12,8 +12,11 @@ classdef getCardHolders < handle
         %> A cell structure of \c cardHolderCount cardHolder models
         cardHolder;
         
+        %> paddockSize in meters
+        workAreaSize = [2,2];
+        
         %> Dimensions of the workspace in regard to the padoc size
-        workspaceDimensions;
+        workspaceDimensions = [-2 2 -0.5 2 0 2];
     end
     
     methods
@@ -23,8 +26,9 @@ classdef getCardHolders < handle
                 self.cardHolderCount = cardHolderCount;
             end
             
-            self.workspaceDimensions = [-2 2 -.6 2 0 2.1];;
-            
+%             self.workspaceDimensions = [-self.workAreaSize(1)/2, self.workAreaSize(1)/2 ...
+%                 ,-self.workAreaSize(2)/2, self.workAreaSize(2)/2 ...
+%                 ,0,self.maxHeight];
             degBetPlayers = 70;
             
             ch1 = eye(4)*transl(.6*cos(deg2rad(90+degBetPlayers)),...

@@ -14,8 +14,11 @@ classdef getCards < handle
         %> A cell structure of \c cardCount card models
         card;
         
-       %> Dimensions of the workspace in regard to the padoc size
-        workspaceDimensions;
+        %> paddockSize in meters
+        workAreaSize = [2,2];
+        
+        %> Dimensions of the workspace in regard to the padoc size
+        workspaceDimensions = [-2 2 -0.5 2 0 2];
     end
     
     methods
@@ -25,7 +28,9 @@ classdef getCards < handle
                 self.cardCount = cardCount;
             end
             
-            self.workspaceDimensions = [-2 2 -.6 2 0 2.1];
+%             self.workspaceDimensions = [-self.workAreaSize(1)/2,...
+%                 self.workAreaSize(1)/2,-self.workAreaSize(2)/2,...
+%                 self.workAreaSize(2)/2, 0, self.maxHeight];
             
             cardLocation = transl(-0.4,0,1)*trotz(pi)*trotx(-pi/2);
             

@@ -13,8 +13,11 @@ classdef getBottle < handle
         %> A cell structure of \c bottleCount bottle models
         bottle;
         
-       %> Dimensions of the workspace
-        workspaceDimensions;
+        %> workspace in meters
+        workAreaSize = [2,2];
+        
+        %> Dimensions of the workspace
+        workspaceDimensions = [-2 2 -0.5 2 0 2];
     end
     
     methods
@@ -24,7 +27,9 @@ classdef getBottle < handle
                 self.bottleCount = bottleCount;
             end
             
-            self.workspaceDimensions = [-2 2 -.6 2 0 2.1];
+%             self.workspaceDimensions = [-self.workAreaSize(1)/2, self.workAreaSize(1)/2 ...
+%                 ,-self.workAreaSize(2)/2, self.workAreaSize(2)/2 ...
+%                 ,0,self.maxHeight];
             
             zoffset = 0.02;
             T1 = transl(0.0, 0.4, 1.0-zoffset);
