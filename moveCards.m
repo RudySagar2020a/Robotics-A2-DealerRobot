@@ -3,9 +3,9 @@
 % Function used to move end effector gripper from goal pose to cards pose,
 % pick it up and place wherever the goal pose is for that turn
 
-function moveCards()
+function moveCards(robot1)
 
-robot = Kinova;
+robot = robot1;
 CH = getCardHolders;
 cards = getCards;
 
@@ -21,6 +21,9 @@ cards = getCards;
         traj = jtraj(q,nextq,steps);
         for i=1:steps
             q = traj(i,:);
+            while robot.eStop == 1
+                pause(1);
+            end
             animate(robot.model,q);
             pause(.05);
         end
@@ -52,6 +55,9 @@ cards = getCards;
         traj = jtraj(robot.model.getpos,nextq,steps);
         for i=1:steps
             q = traj(i,:);
+            while robot.eStop == 1
+                pause(1);
+            end
             animate(robot.model,q);
             cards.card{cardNum}.base = (robot.model.fkine(q));
             animate(cards.card{cardNum},0);
@@ -76,6 +82,9 @@ cards = getCards;
         traj = jtraj(q,nextq,steps);
         for i=1:steps
             q = traj(i,:);
+            while robot.eStop == 1
+                pause(1);
+            end
             animate(robot.model,q);
             pause(.05);
         end
@@ -107,6 +116,9 @@ cards = getCards;
         traj = jtraj(robot.model.getpos,nextq,steps);
         for i=1:steps
             q = traj(i,:);
+            while robot.eStop == 1
+                pause(1);
+            end
             animate(robot.model,q);
             cards.card{cardNum}.base = (robot.model.fkine(q));
             animate(cards.card{cardNum},0);
