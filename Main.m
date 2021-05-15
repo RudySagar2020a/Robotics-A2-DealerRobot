@@ -25,6 +25,25 @@ Mei = People(workspace, 'Mei', transl(-1.15, 0.55, 0.0) * trotz(-pi/2));
 Jack = People(workspace, 'Jack', transl(0.0, 1.15, 0.0));
 view(3); %view(3)
 
+q = zeros(1,6);
+
+%% Deal Player cards
+
+dealPlayerCards(robot,cards,CH);
+%% The Flop
+
+theFlop(robot,cards,CH,CD);
+
+%% The Turn
+
+theTurn(robot,cards,CH,CD);
+
+%% The River
+
+theRiver(robot,cards,CH,CD);
+
+%% Light Curtains
+
 % LIGHT CURTAIN ATTEMPT 1---------------------------------
 % X.lightCurtain = [-0.75, 0.75]; % <---->
 % Y.lightCurtain = [0.0, 0.75]; % thin line of one point
@@ -45,7 +64,7 @@ view(3); %view(3)
 % LIGHT CURTAIN-------------------------------------------
 % Create sphere
 sphereCenter = [0,0,0.95];
-radius = 0.84;
+radius = 0.7;
 [X,Y,Z] = sphere(20);
 X = X * radius + sphereCenter(1);
 Y = Y * radius + sphereCenter(2);
@@ -57,20 +76,9 @@ points = [X(:),Y(:),Z(:)];
 spherePc_h = plot3(points(:,1),points(:,2),points(:,3),'r.');
 pause
 delete (spherePc_h)
-
-q = zeros(1,6);
-
-%% Deal Player cards
-    
-dealPlayerCards(robot,cards,CH); 
-%% The Flop
-
-theFlop(robot,cards,CH,CD);
-
-%% The Turn
-
-theTurn(robot,cards,CH,CD);
-
-%% The River
-
-theRiver(robot,cards,CH,CD);
+ 
+% CheckCollision(robot,sphereCenter,radius);
+% if CheckCollision(robot,sphereCenter,radius) == 1
+%     disp('UNSAFE: Robot stopped')
+%     break;
+% end
