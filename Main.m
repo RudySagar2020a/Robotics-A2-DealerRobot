@@ -43,5 +43,5 @@ theRiver(robot,cards,CH,CD);
 
 %% Bottle Ingress
 
-bottleIngress(Jack,bottle);
+bottleIngress(Jack,bottle)
 
