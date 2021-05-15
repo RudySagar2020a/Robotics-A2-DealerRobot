@@ -42,6 +42,11 @@ theTurn(robot,cards,CH,CD);
 
 theRiver(robot,cards,CH,CD);
 
+%% Bottle Ingress
+
+bottleIngress(Jack,bottle);
+
+
 %% Light Curtains
 
 % LIGHT CURTAIN ATTEMPT 1---------------------------------
