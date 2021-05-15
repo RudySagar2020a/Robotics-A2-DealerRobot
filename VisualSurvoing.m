@@ -1,28 +1,24 @@
 %% Robotics
 % Lab 8 - Visual Servoing with UR10 
-function [  ] = Lab8Solution( )
-
-close all
-clf
-
+function [  ] = VisualSurvoing(robot,cards,CH)
 %% 1.1 Definitions
 
-ch1Corner1 = CH.cardHolder{1}.base*transl(-.03175,.04445,0);
-ch1Corner2 = CH.cardHolder{1}.base*transl(.03175,.04445,0);
-ch1Corner3 = CH.cardHolder{1}.base*transl(-.03175,-.04445,0);
-ch1Corner4 = CH.cardHolder{1}.base*transl(.03175,-.04445,0);
+ch1Corner1 = CH.cardHolder{1}.base*transl(-.03175,0,.04445);
+ch1Corner2 = CH.cardHolder{1}.base*transl(.03175,0,.04445);
+ch1Corner3 = CH.cardHolder{1}.base*transl(-.03175,0,-.04445);
+ch1Corner4 = CH.cardHolder{1}.base*transl(.03175,0,-.04445);
 
 ch1_3dPoints = {[ch1Corner1(1,4);ch1Corner1(2,4);ch1Corner1(3,4)] [ch1Corner2(1,4);ch1Corner2(2,4);ch1Corner2(3,4)] [ch1Corner3(1,4);ch1Corner3(2,4);ch1Corner3(3,4)] [ch1Corner4(1,4);ch1Corner4(2,4);ch1Corner4(3,4)]};
                
 %Points in cam frame
-camTrans = eye(4)*transl(0,.3,3)*trotx(pi);
-z = camTrans(3,4)-ch1_3dPoints{1}(3,1);
+camTr = transl(0,.3,2.2)*trotx(pi);
+z = camTr(3,4)-ch1_3dPoints{1}(3,1);
 ch1_camPoints = {[ch1Corner1(1,4);-ch1Corner1(2,4)+.3;z] [ch1Corner2(1,4);-ch1Corner2(2,4)+.3;z] [ch1Corner3(1,4);-ch1Corner3(2,4)+.3;z] [ch1Corner4(1,4);-ch1Corner4(2,4)+.3;z]};
 
-f = 0.015;
-camResolution = [1024 576];
-principlePoint = [512 288];
-pixWidth = 10^-5;    %pixel height = pixel width
+f = 0.08;
+camResolution = [1024 1024];
+principlePoint = [512 512];
+pixWidth = 10e-5;    %pixel height = pixel width
 cam2pixConvMatrix = [f/pixWidth,0,principlePoint(1);
                     0,f/pixWidth,principlePoint(2);
                     0,0,1];
@@ -30,25 +26,16 @@ cam2pixConvMatrix = [f/pixWidth,0,principlePoint(1);
              
 %%  
 
-
-.97
 % Create image target (points in the image plane) 
 ch1Drop = [662 362 362 662; 362 362 662 662];
 
 %Create 3D points
-P=[1.8,1.8,1.8,1.8;
--0.25,0.25,0.25,-0.25;
- 1.25,1.25,0.75,0.75];
-
-
-% Make a UR10
-r = Kinova;             
-
-%Initial pose
-q0 = [pi/2; -pi/3; -pi/3; -pi/6; 0; 0];
+P=[ch1Corner1(1,4),ch1Corner2(1,4),ch1Corner3(1,4),ch1Corner4(1,4);
+ch1Corner1(2,4),ch1Corner2(2,4),ch1Corner3(2,4),ch1Corner4(2,4);
+ ch1Corner1(3,4),ch1Corner2(3,4),ch1Corner3(3,4),ch1Corner4(3,4)];         
 
 % Add the camera
-cam = CentralCamera('focal', 0.08, 'pixel', 10e-5,'resolution', [1024 576], 'centre', [512 512],'name', 'UR10camera');
+cam = CentralCamera('focal', f, 'pixel', pixWidth,'resolution', camResolution, 'centre', principlePoint,'name', 'SkyCam');
 
 % frame rate
 fps = 25;
@@ -61,16 +48,11 @@ depth = mean (P(1,:));
 
 %% 1.2 Initialise Simulation (Display in 3D)
 
-%Display UR10
-Tc0= r.model.fkine(q0);
-r.model.animate(q0');
-drawnow
-
 % plot camera and points
-cam.T = Tc0;
+cam.T = camTr;
 
 % Display points in 3D and the camera
-cam.plot_camera('Tcam',Tc0, 'label','scale',0.15);
+cam.plot_camera('Tcam',cam.T, 'label','scale',0.15);
 plot_sphere(P, 0.05, 'b')
 lighting gouraud
 light
@@ -78,13 +60,13 @@ light
 %% 1.3 Initialise Simulation (Display in Image view)
 
 %Project points to the image
-p = cam.plot(P, 'Tcam', Tc0);
+p = cam.plot(P, 'Tcam', cam.T);
 
 %camera view and plotting
 cam.clf()
-cam.plot(pStar, '*'); % create the camera view
+cam.plot(ch1Drop, '*'); % create the camera view
 cam.hold(true);
-cam.plot(P, 'Tcam', Tc0, 'o'); % create the camera view
+cam.plot(P, 'Tcam', cam.T, 'o'); % create the camera view
 pause(2)
 cam.hold(true);
 cam.plot(P);    % show initial view
@@ -105,7 +87,7 @@ ksteps = 0;
         uv = cam.plot(P);
         
         % compute image plane error as a column
-        e = pStar-uv;   % feature error
+        e = ch1Drop-uv;   % feature error
         e = e(:);
         Zest = [];
         
@@ -183,7 +165,7 @@ ksteps = 0;
  
 %% 1.5 Plot results
 figure()            
-plot_p(history,pStar,cam)
+plot_p(history,ch1Drop,cam)
 figure()
 plot_camera(history)
 figure()
