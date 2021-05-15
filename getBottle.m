@@ -14,8 +14,7 @@ classdef getBottle < handle
         bottle;
         
         %> workspace in meters
-        workAreaSize = [2,2];
-        
+                
         %> Dimensions of the workspace
         workspaceDimensions = [-2 2 -0.5 2 0 2];
     end
@@ -32,7 +31,7 @@ classdef getBottle < handle
 %                 ,0,self.maxHeight];
             
             zoffset = 0.02;
-            T1 = transl(0.0, 0.4, 1.0-zoffset);
+            T1 = transl(.78*cos(deg2rad(120)),.78*sin(deg2rad(120)), 1.05-zoffset);
             
             % Create the required number of bottles
             

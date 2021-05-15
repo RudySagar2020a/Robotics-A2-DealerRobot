@@ -17,7 +17,7 @@ robot = Kinova;
 CH = getCardHolders;
 CD = getCardDispenser;
 cards = getCardsRMRC;
-%bottle = getBottle;
+bottle = getBottle;
 
 Dennis = People(workspace, 'Dennis', transl(1.1, 0.4, 0.0) * trotz(pi));
 Mei = People(workspace, 'Mei', transl(-1.15, 0.55, 0.0) * trotz(-pi/2));
@@ -40,3 +40,8 @@ theTurn(robot,cards,CH,CD);
 %% The River
 
 theRiver(robot,cards,CH,CD);
+
+%% Bottle Ingress
+
+bottleIngress(Jack,bottle);
+
