@@ -2,7 +2,7 @@ classdef getCardDispenser < handle
    
     properties (Constant)
         %> Max height is for plotting of the workspace
-        maxHeight = 2;
+        maxHeight = 3;
     end
     
     properties
@@ -16,7 +16,7 @@ classdef getCardDispenser < handle
         workAreaSize = [2,2];        
         
         %> Dimensions of the workspace
-        workspaceDimensions = [-2 2 -0.5 2 0 2];
+        workspaceDimensions = [-2 2 -2 2 0 2.5];
     end
     
     methods
@@ -44,7 +44,7 @@ classdef getCardDispenser < handle
                 plot3d(self.cardDispenser,0,'workspace',self.workspaceDimensions,'delay',0,'color',C);
                 
             axis equal
-            camlight;
+%             camlight;
        
         
 %         function delete(self)

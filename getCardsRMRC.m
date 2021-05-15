@@ -3,7 +3,7 @@ classdef getCardsRMRC < handle
     
     properties (Constant)
         %> Max height is for plotting of the workspace
-        maxHeight = 2;
+        maxHeight = 3;
     end
     
     properties
@@ -19,7 +19,7 @@ classdef getCardsRMRC < handle
         workAreaSize = [2,2];
         
         %> Dimensions of the workspace in regard to the padoc size
-        workspaceDimensions = [-2 2 -0.5 2 0 2];
+        workspaceDimensions = [-2 2 -2 2 0 2.5];
     end
     
     methods
@@ -51,7 +51,7 @@ classdef getCardsRMRC < handle
             end
             
             axis equal
-            camlight;
+%             camlight;
         end
         
         function delete(self)
