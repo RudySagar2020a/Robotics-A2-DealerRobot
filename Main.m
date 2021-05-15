@@ -46,7 +46,9 @@ theRiver(robot,cards,CH,CD);
 
 bottleIngress(Jack,bottle);
 
-
+%% Collision Detection Tester
+grabNextCardCD(robot,cards,cardNum,bottle);
+    
 %% Light Curtains
 
 % LIGHT CURTAIN ATTEMPT 1---------------------------------
