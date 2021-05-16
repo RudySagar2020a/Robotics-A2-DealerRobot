@@ -3,9 +3,8 @@
 close all
 clear
 clc
-
 %% MAIN CLASS FOR EXECUTING CODE
-
+%%
 w = 2;
 workspace =  [-w w -w w 0 3];
 
@@ -26,31 +25,26 @@ Jack = People(workspace, 'Jack', transl(0.0, 1.15, 0.001));
 view(3); %view(3)
 
 q = zeros(1,6);
-
 %% Deal Player cards
-
+%%
 dealPlayerCards(robot,cards,CH);
 %% The Flop
-
+%%
 theFlop(robot,cards,CH,CD);
-
 %% The Turn
-
+%%
 theTurn(robot,cards,CH,CD);
-
 %% The River
-
+%%
 theRiver(robot,cards,CH,CD);
-
 %% Bottle Ingress
-
+%%
 bottleIngress(Jack,bottle);
-
 %% Collision Detection Tester
-grabNextCardCD(robot,cards,cardNum,bottle);
-    
+%%
+collision();
 %% Light Curtains
-
+%%
 % LIGHT CURTAIN ATTEMPT 1---------------------------------
 % X.lightCurtain = [-0.75, 0.75]; % <---->
 % Y.lightCurtain = [0.0, 0.75]; % thin line of one point

@@ -4,7 +4,7 @@ function [q] = grabNextCard(robot,cards,cardNum,bottle)
 
 nextCardApproachTr = transl(-0.4,0,1)*trotz(pi/2)*trotx(-pi/2);
 bottle.bottle.base = transl(-.3,.1,.98);
-animate(bottle.bottle,0);
+%Animate(bottle.bottle,0);
 q = robot.model.getpos;
 nextq = robot.model.ikcon(nextCardApproachTr,zeros(1,6));
 steps = 50;
