@@ -20,9 +20,9 @@ CD = getCardDispenser;
 cards = getCardsRMRC;
 bottle = getBottle;
 
-% Dennis = People(workspace, 'Dennis', transl(1.1, 0.4, 0.01) * trotz(pi));
-% Mei = People(workspace, 'Mei', transl(-1.15, 0.55, 0.001) * trotz(-pi/2));
-% Jack = People(workspace, 'Jack', transl(0.0, 1.15, 0.01));
+Dennis = People(workspace, 'Dennis', transl(1.1, 0.4, 0.01) * trotz(pi));
+Mei = People(workspace, 'Mei', transl(-1.15, 0.55, 0.001) * trotz(-pi/2));
+Jack = People(workspace, 'Jack', transl(0.0, 1.15, 0.01));
 view(3); %view(3)
 
 q = zeros(1,6);
