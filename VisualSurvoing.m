@@ -2,19 +2,21 @@
 % Lab 8 - Visual Servoing with UR10 
 function [  ] = VisualSurvoing(robot,cards,CH)
 %% 1.1 Definitions
+bottle.bottle.base = transl(-.2,.4,.98);
+animate(bottle.bottle,0);
+q0 = [.1485 -1.3362 -2.0963 -1.1809 -1.8408 -.1091]; 
+animate(robot.model,q0);
 
-ch1Corner1 = CH.cardHolder{1}.base*transl(-.03175,0,.04445);
-ch1Corner2 = CH.cardHolder{1}.base*transl(.03175,0,.04445);
-ch1Corner3 = CH.cardHolder{1}.base*transl(-.03175,0,-.04445);
-ch1Corner4 = CH.cardHolder{1}.base*transl(.03175,0,-.04445);
+bottleRad = 0.03;
+bottle_pt1 = bottle.bottle.base*transl(-bottleRad,0,0);
+bottle_pt2 = bottle.bottle.base*transl(bottleRad,0,0);
+bottle_pt3 = bottle.bottle.base*transl(0,bottleRad,0);
+bottle_pt4 = bottle.bottle.base*transl(0,-bottleRad,0);
 
-ch1_3dPoints = {[ch1Corner1(1,4);ch1Corner1(2,4);ch1Corner1(3,4)] [ch1Corner2(1,4);ch1Corner2(2,4);ch1Corner2(3,4)] [ch1Corner3(1,4);ch1Corner3(2,4);ch1Corner3(3,4)] [ch1Corner4(1,4);ch1Corner4(2,4);ch1Corner4(3,4)]};
+bottle_3dPoints = {[bottle_pt1(1,4);bottle_pt1(2,4);bottle_pt1(3,4)] [bottle_pt2(1,4);bottle_pt2(2,4);bottle_pt2(3,4)] [bottle_pt3(1,4);bottle_pt3(2,4);bottle_pt3(3,4)] [bottle_pt4(1,4);bottle_pt4(2,4);bottle_pt4(3,4)]};
                
-%Points in cam frame
+%Cam
 camTr = transl(0,.3,2.2)*trotx(pi);
-z = camTr(3,4)-ch1_3dPoints{1}(3,1);
-ch1_camPoints = {[ch1Corner1(1,4);-ch1Corner1(2,4)+.3;z] [ch1Corner2(1,4);-ch1Corner2(2,4)+.3;z] [ch1Corner3(1,4);-ch1Corner3(2,4)+.3;z] [ch1Corner4(1,4);-ch1Corner4(2,4)+.3;z]};
-
 f = 0.08;
 camResolution = [1024 1024];
 principlePoint = [512 512];
@@ -23,16 +25,17 @@ cam2pixConvMatrix = [f/pixWidth,0,principlePoint(1);
                     0,f/pixWidth,principlePoint(2);
                     0,0,1];
 
-             
+            
 %%  
 
 % Create image target (points in the image plane) 
-ch1Drop = [662 362 362 662; 362 362 662 662];
+IFRad = 20.5128;
+bottleDrop = [245.3333-IFRad 245.3333+IFRad 245.3333 245.3333; 255.248 255.248 255.248-IFRad 255.248+IFRad];
 
 %Create 3D points
-P=[ch1Corner1(1,4),ch1Corner2(1,4),ch1Corner3(1,4),ch1Corner4(1,4);
-ch1Corner1(2,4),ch1Corner2(2,4),ch1Corner3(2,4),ch1Corner4(2,4);
- ch1Corner1(3,4),ch1Corner2(3,4),ch1Corner3(3,4),ch1Corner4(3,4)];         
+P=[bottle_pt1(1,4),bottle_pt2(1,4),bottle_pt3(1,4),bottle_pt4(1,4);
+bottle_pt1(2,4),bottle_pt2(2,4),bottle_pt3(2,4),bottle_pt4(2,4);
+ bottle_pt1(3,4),bottle_pt2(3,4),bottle_pt3(3,4),bottle_pt4(3,4)];         
 
 % Add the camera
 cam = CentralCamera('focal', f, 'pixel', pixWidth,'resolution', camResolution, 'centre', principlePoint,'name', 'SkyCam');
@@ -53,7 +56,7 @@ cam.T = camTr;
 
 % Display points in 3D and the camera
 cam.plot_camera('Tcam',cam.T, 'label','scale',0.15);
-plot_sphere(P, 0.05, 'b')
+plot_sphere(P, 0.01, 'b')
 lighting gouraud
 light
 
@@ -64,7 +67,7 @@ p = cam.plot(P, 'Tcam', cam.T);
 
 %camera view and plotting
 cam.clf()
-cam.plot(ch1Drop, '*'); % create the camera view
+cam.plot(bottleDrop, '*'); % create the camera view
 cam.hold(true);
 cam.plot(P, 'Tcam', cam.T, 'o'); % create the camera view
 pause(2)
@@ -87,7 +90,7 @@ ksteps = 0;
         uv = cam.plot(P);
         
         % compute image plane error as a column
-        e = ch1Drop-uv;   % feature error
+        e = bottleDrop-uv;   % feature error
         e = e(:);
         Zest = [];
         
@@ -112,7 +115,7 @@ ksteps = 0;
         fprintf('v: %.3f %.3f %.3f %.3f %.3f %.3f\n', v);
 
         %compute robot's Jacobian and inverse
-        J2 = r.model.jacobn(q0);
+        J2 = robot.model.jacobn(q0);
         Jinv = pinv(J2);
         % get joint velocities
         qp = Jinv*v;
@@ -130,11 +133,14 @@ ksteps = 0;
 
         %Update joints 
         q = q0 + (1/fps)*qp;
-        r.model.animate(q');
+        robot.model.animate(q');
 
         %Get camera location
-        Tc = r.model.fkine(q);
-        cam.T = Tc;
+%         Tc = robot.model.fkine(q);
+%         cam.T = Tc;
+        bottle.bottle.base = robot.model.fkine(q')*trotz(-pi/2)*trotx(pi/2)*trotz(-deg2rad(30));
+        animate(bottle.bottle,0);
+       
 
         drawnow
         
@@ -145,7 +151,7 @@ ksteps = 0;
         hist.e = e;
         hist.en = norm(e);
         hist.jcond = cond(J);
-        hist.Tcam = Tc;
+        hist.bottle = bottle.bottle.base;
         hist.vel_p = vel;
         hist.uv_p = uv;
         hist.qp = qp;

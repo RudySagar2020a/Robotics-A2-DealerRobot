@@ -1,7 +1,7 @@
-function [bool] = LightCurtainCC(bottle1, sphereCenter, radius)
+function [bool] = LightCurtainCC(bottle1)
 % function isCollision = CheckCollision(robot, sphereCenter, radius)
-radius = 0.1;
-
+radius = 0.7;
+sphereCenter = transl(0,0,.95);
 bottle = bottle1;
     steps = 1;
     pause(0.1);
@@ -9,27 +9,16 @@ bottle = bottle1;
     bottlepos = bottle.bottle.base;
 %     bottleToCenterDist = sqrt(sum( (sphereCenter - bottlepos(1:3,4)') .^2));
 %     bottleToCenterDist = sqrt((bottlepos(1,4)^2)+(bottlepos(2,4)^2));
-
-    bottle.pointsMat{1,1}
-
-    pointMat;
-    
-    [r,c] = size(pointMat)
-    
-    for i = 1:steps:r
-        X = pointMat(i,1); %- sphereCenter(1);
-        Y = pointMat(i,2); %- sphereCenter(2);
-        
-        bottleToCenterDist = sqrt(((X).^2)+((Y).^2));
-        
-        if bottleToCenterDist <= radius
-            disp('Object within Operation Safety Zone! Game Stopped');
-    %         isCollision = 1;
+    dist = sqrt((sphereCenter(1,4)-bottle.bottle.base(1,4))^2+(sphereCenter(2,4)-bottle.bottle.base(2,4))^2+(sphereCenter(3,4)-bottle.bottle.base(3,4))^2)+-radius;
+        if dist <=0 
+        bool = 1;
+%         disp('Object within Operation Safety Zone! Game Stopped');
+%     %         isCollision = 1;
             bool = 1;
+            return
         else
-            disp('Object no longer in Operation Safety Zone! Continue');
+%             disp('Operational Safety Zone Clear! Continue');
     %         isCollision = 0;
             bool = 0;
         end
     end
-end

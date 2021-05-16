@@ -3,7 +3,7 @@
 % When an object enters Operation Safety Zone, operation of the game and
 % robot movement will cease immediately upon object detection
 
-function [] = bottleIngress(Jack,bottle)
+function [] = bottleIngress(robot,Jack,bottle)
 % robot = Kinova;
 % bottle = bottle;
 steps = 20;
@@ -38,11 +38,12 @@ end
 
 for i = 1:steps
     bottle.bottle.base = bottle.bottle.base*transl(0,-.1*tan(deg2rad(4.5)),0)*trotx(deg2rad(4.5));
-    LightCurtainCC(bottle,sphereCenter,radius) %(robot,...)
-    if LightCurtainCC(bottle,sphereCenter,radius) == 0 %(robot,...)
+    LightCurtainCC(bottle); %(robot,...)
+    if LightCurtainCC(bottle) == 1 %(robot,...)
         disp('Please remove object from Operation Zone');
-        %break;
-%         robot.eStop = 1;
+        robot.eStop = 1;
+    else robot.eStop = 0;
+        disp('Area Cleared. Resuming')
     end
     animate(bottle.bottle,0);
     pause(0.03);
@@ -51,12 +52,13 @@ end
 pause(3);
 
 for i = 1:steps
-%     CheckCollision(robot,sphereCenter,radius);
-%     if CheckCollision(robot,sphereCenter,radius) == 1
-%         disp('Please remove object from Operation Zone');
-%         %break;
-%         robot.eStop = 1;
-%     end
+    LightCurtainCC(bottle); %(robot,...)
+    if LightCurtainCC(bottle) == 1 %(robot,...)
+        disp('Please remove object from Operation Zone');
+        robot.eStop = 1;
+    else robot.eStop = 0;
+        disp('Area Cleared. Resuming');
+    end
     Jack.model.base = Jack.model.base * trotz(-deg2rad(45)/steps);
     animate(Jack.model,0);
     bottle.bottle.base = bottle.bottle.base * trotx(-deg2rad(4.5))*transl(0,.1*tan(deg2rad(4.5)),0);

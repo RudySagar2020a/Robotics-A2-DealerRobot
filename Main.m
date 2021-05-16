@@ -40,7 +40,7 @@ theTurn(robot,cards,CH,CD);
 theRiver(robot,cards,CH,CD);
 %% Bottle Ingress
 
-bottleIngress(Jack,bottle);
+bottleIngress(robot,Jack,bottle);
 %% Collision Detection Tester
 
 cardNum = 2;
