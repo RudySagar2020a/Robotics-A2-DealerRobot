@@ -3,6 +3,7 @@
 close all
 clear
 clc
+
 %% MAIN CLASS FOR EXECUTING CODE
 
 w = 2;
@@ -19,9 +20,9 @@ CD = getCardDispenser;
 cards = getCardsRMRC;
 bottle = getBottle;
 
-Dennis = People(workspace, 'Dennis', transl(1.1, 0.4, 0.001) * trotz(pi));
+Dennis = People(workspace, 'Dennis', transl(1.1, 0.4, 0.01) * trotz(pi));
 Mei = People(workspace, 'Mei', transl(-1.15, 0.55, 0.001) * trotz(-pi/2));
-Jack = People(workspace, 'Jack', transl(0.0, 1.15, 0.001));
+Jack = People(workspace, 'Jack', transl(0.0, 1.15, 0.01));
 view(3); %view(3)
 
 q = zeros(1,6);
@@ -86,6 +87,7 @@ q = grabNextCard(robot,cards,cardNum);
         pause(.05);
     end
     cardNum = 1;
+    
 grabNextCardCD(robot,cards,cardNum,bottle);
 %% Light Curtains
 
