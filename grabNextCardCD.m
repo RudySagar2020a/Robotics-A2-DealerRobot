@@ -3,8 +3,8 @@ function [q] = grabNextCard(robot,cards,cardNum,bottle)
 %robot = robot1;
 
 nextCardApproachTr = transl(-0.4,0,1)*trotz(pi/2)*trotx(-pi/2);
-bottle.bottle.base = transl(-.3,.1,.98);
-%Animate(bottle.bottle,0);
+bottle.bottle.base = transl(-.2,.4,.98);
+animate(bottle.bottle,0);
 q = robot.model.getpos;
 nextq = robot.model.ikcon(nextCardApproachTr,zeros(1,6));
 steps = 50;
@@ -13,7 +13,7 @@ for i=1:steps
     q = traj(i,:);
     CheckCollision(robot,bottle,q)
     if CheckCollision(robot,bottle,q) == 1
-         display('Holy shit I crashed');
+         display('Party Foul');
          robot.eStop = 1;
     end
         while robot.eStop == 1
