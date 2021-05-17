@@ -7,7 +7,8 @@ function [] = bottleIngress(robot,Jack,bottle)
 % robot = Kinova;
 % bottle = bottle;
 steps = 20;
-
+q = [0 0 -pi/2 pi/2 -pi/2 0];
+animate(robot.model,q);
 % LIGHT CURTAIN-------------------------------------------
 % Create sphere
 sphereCenter = [0,0,0.95];
@@ -33,6 +34,10 @@ spherePc_h = plot3(points(:,1),points(:,2),points(:,3),'r.');
 for i = 1:steps
     Jack.model.base = Jack.model.base * trotz(deg2rad(45)/steps);
     animate(Jack.model,0);
+    if robot.eStop == 0
+        q(1) = q(1)+deg2rad(5);
+        animate(robot.model,q);
+    end
     pause(0.03);
 end
 
@@ -46,6 +51,10 @@ for i = 1:steps
         disp('Area Cleared. Resuming')
     end
     animate(bottle.bottle,0);
+    if robot.eStop == 0
+        q(1) = q(1)+deg2rad(5);
+        animate(robot.model,q);
+    end
     pause(0.03);
 end
 
@@ -63,6 +72,10 @@ for i = 1:steps
     animate(Jack.model,0);
     bottle.bottle.base = bottle.bottle.base * trotx(-deg2rad(4.5))*transl(0,.1*tan(deg2rad(4.5)),0);
     animate(bottle.bottle,0);
+    if robot.eStop == 0
+        q(1) = q(1)+deg2rad(5);
+        animate(robot.model,q);
+    end
     pause(0.05);
 end
 

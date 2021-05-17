@@ -1,6 +1,6 @@
 %% Collision Detection Tester
 
-function CollisionDetectionTest(robot1,cards,CH,cardNum)
+function CollisionDetectionTest(robot1,cards,CH,bottle)
 robot = robot1;
 cardNum = 2;
 q = grabNextCard(robot,cards,cardNum);

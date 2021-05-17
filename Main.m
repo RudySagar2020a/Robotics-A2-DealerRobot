@@ -45,4 +45,4 @@ theRiver(robot,cards,CH,CD);
 bottleIngress(robot,Jack,bottle);
 %% Collision Detection Tester
 
-CollisionDetectionTest(robot,cards,CH,cardNum);
+CollisionDetectionTest(robot,cards,CH,bottle);
