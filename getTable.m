@@ -30,7 +30,7 @@ classdef getTable < handle
 %                                        ,-self.workAreaSize(2)/2, self.workAreaSize(2)/2 ...
 %                                        ,0,self.maxHeight];
             
-            T1 = eye(4)*transl(0,0,0)*trotx(deg2rad(180))*troty(deg2rad(0))*trotz(deg2rad(0));
+            T1 = trotx(deg2rad(180))*troty(deg2rad(0))*trotz(deg2rad(0));
             
           
 

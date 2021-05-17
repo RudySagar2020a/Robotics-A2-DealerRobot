@@ -19,6 +19,8 @@ CH = getCardHolders;
 CD = getCardDispenser;
 cards = getCardsRMRC;
 bottle = getBottle;
+eStopButton = getEstopButton;
+fireExt = getFireExt;
 
 Dennis = People(workspace, 'Dennis', transl(1.1, 0.4, 0.01) * trotz(pi));
 Mei = People(workspace, 'Mei', transl(-1.15, 0.55, 0.001) * trotz(-pi/2));
@@ -40,7 +42,7 @@ theTurn(robot,cards,CH,CD);
 theRiver(robot,cards,CH,CD);
 %% Light Curtain Tester
 
-bottleIngress(Jack,bottle);
+bottleIngress(robot,Jack,bottle);
 %% Collision Detection Tester
 
 CollisionDetectionTest(robot,cards,CH,cardNum);
