@@ -13,7 +13,7 @@ for i=1:steps
     q = traj(i,:);
     CheckCollision(robot,bottle,q); %un-mask to see boolean states (0/1)
     if CheckCollision(robot,bottle,q) == 1
-        disp('Party Foul');
+        disp('Collision Detection! To Prevent a Party Foul, Movement Has Been Stopped');
         robot.eStop = 1;
     end
     while robot.eStop == 1
